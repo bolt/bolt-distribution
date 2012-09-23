@@ -3,13 +3,13 @@
 FILENAME="bolt_0.6"
 export COPYFILE_DISABLE=true
 
-#git clone git://github.com/bobdenotter/bolt.git bolt-git
-#cd bolt-git/
-#curl -s http://getcomposer.org/installer | php
-#php composer.phar install
-#cd ..
-#mkdir files
+cd bolt-git/
+php composer.phar self-update
+php composer.phar update
+cd ..
 
+rm -rf bolt
+cp -rf bolt-git bolt
 find bolt/vendor -name ".git" | xargs rm -rf
 find bolt/vendor -name "tests" | xargs rm -rf
 find bolt/vendor -name "Tests" | xargs rm -rf
