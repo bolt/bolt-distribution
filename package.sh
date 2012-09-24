@@ -4,6 +4,7 @@ FILENAME="bolt_0.6"
 export COPYFILE_DISABLE=true
 
 cd bolt-git/
+git pull
 php composer.phar self-update
 php composer.phar update
 cd ..
