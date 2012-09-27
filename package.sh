@@ -1,6 +1,6 @@
 #!/bin/sh
 
-FILENAME="bolt_0.6"
+FILENAME="bolt_0.6.3"
 export COPYFILE_DISABLE=true
 
 cd bolt-git/
@@ -15,6 +15,7 @@ find bolt/vendor -name ".git" | xargs rm -rf
 find bolt/vendor -name "tests" | xargs rm -rf
 find bolt/vendor -name "Tests" | xargs rm -rf
 rm -rf bolt/.git bolt/composer.* bolt/vendor/symfony/locale/Symfony/Component/Locale/Resources/data bolt/.gitignore
+rm -rf bolt/app/view/img/debug-nipple-src.png bolt/app/view/img/*.pxm
 
 # remove ._ files..
 dot_clean .
