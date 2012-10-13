@@ -1,2 +1,6 @@
 bolt-git
 bolt
+
+*.zip
+
+*.tgz
