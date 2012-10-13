@@ -1,6 +1,6 @@
 #!/bin/sh
 
-FILENAME="bolt_0.7"
+FILENAME="bolt_0.7.5"
 export COPYFILE_DISABLE=true
 
 cd bolt-git/
