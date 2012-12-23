@@ -1,6 +1,6 @@
 #!/bin/sh
 
-FILENAME="bolt_0.7.5"
+FILENAME="bolt_0.9"
 export COPYFILE_DISABLE=true
 
 cd bolt-git/
@@ -11,6 +11,9 @@ cd ..
 
 rm -rf bolt
 cp -rf bolt-git bolt
+
+rm -rf files/*
+
 find bolt/vendor -name ".git" | xargs rm -rf
 find bolt/vendor -name "tests" | xargs rm -rf
 find bolt/vendor -name "Tests" | xargs rm -rf
@@ -26,12 +29,14 @@ find bolt -type f -exec chmod 644 {} \;
 chmod -R 777 bolt/files bolt/app/cache bolt/app/config bolt/app/database bolt/theme
 
 # Make the archives..
-tar -czf $FILENAME.tgz bolt
+cd bolt
+tar -czf ../$FILENAME.tgz * .htaccess
+zip -rq ../$FILENAME.zip * .htaccess
+cd ..
 cp $FILENAME.tgz ./files/bolt_latest.tgz
 mv $FILENAME.tgz ./files/
-
-zip -rq $FILENAME.zip bolt
 cp $FILENAME.zip ./files/bolt_latest.zip
 mv $FILENAME.zip ./files/
 
 echo "\nAll done!\n"
+
