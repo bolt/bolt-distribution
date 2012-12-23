@@ -18,7 +18,9 @@ find bolt/vendor -name ".git" | xargs rm -rf
 find bolt/vendor -name "tests" | xargs rm -rf
 find bolt/vendor -name "Tests" | xargs rm -rf
 rm -rf bolt/.git bolt/composer.* bolt/vendor/symfony/locale/Symfony/Component/Locale/Resources/data bolt/.gitignore
-rm -rf bolt/app/view/img/debug-nipple-src.png bolt/app/view/img/*.pxm
+rm -rf bolt/app/view/img/debug-nipple-src.png bolt/app/view/img/*.pxm bolt/app/view/img/bolt-logo.png
+rm -rf bolt/app/view/lib/codemirror/codemirror.js
+rm -rf vendor/swiftmailer/swiftmailer/doc vendor/swiftmailer/swiftmailer/notes vendor/swiftmailer/swiftmailer/test-suite
 
 # remove ._ files..
 dot_clean .
