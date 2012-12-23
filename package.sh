@@ -23,10 +23,19 @@ rm -rf bolt/app/view/img/debug-nipple-src.png bolt/app/view/img/*.pxm
 # remove ._ files..
 dot_clean .
 
+# copy the default config files.
+cp bolt/app/config/config.yml.dist files/config.yml
+cp bolt/app/config/contenttypes.yml.dist files/contenttypes.yml
+cp bolt/app/config/menu.yml.dist files/menu.yml
+cp bolt/app/config/taxonomy.yml.dist files/taxonomy.yml
+
 # setting the correct filerights
 find bolt -type d -exec chmod 755 {} \;
 find bolt -type f -exec chmod 644 {} \;
 chmod -R 777 bolt/files bolt/app/cache bolt/app/config bolt/app/database bolt/theme
+
+# until DBAL is fixed (see: https://github.com/doctrine/dbal/pull/226 )
+cp overrides/SqliteSchemaManager.php bolt/vendor/doctrine/dbal/lib/Doctrine/DBAL/Schema/SqliteSchemaManager.php
 
 # Make the archives..
 cd bolt
@@ -40,3 +49,4 @@ mv $FILENAME.zip ./files/
 
 echo "\nAll done!\n"
 
+# scp files/* bolt@128.140.220.72:/home/bolt/public_html/distribution/

@@ -1,0 +1,123 @@
+# This file defines the contenttypes on the website. See the documentation for
+# details: http://docs.bolt.cm/content#defining-contenttypes
+
+entries:
+    name: Entries
+    singular_name: Entry
+    fields:
+        title:
+            type: text
+            class: large
+        slug:
+            type: slug
+            uses: title
+        image:
+            type: image
+        teaser:
+            type: html
+            height: 150px
+        video:
+            type: video
+        body:
+            type: html
+            height: 300px
+    taxonomy: [ categories, tags ]
+    record_template: entry.twig
+    listing_template: listing.twig
+    listing_records: 10
+    sort: datecreated DESC
+    recordsperpage: 7
+    rss:
+      enabled: true
+      feed_records: 10
+      feed_template: rss.twig
+      content_length: 250
+
+pages:
+    name: Pages
+    singular_name: Page
+    fields:
+        title:
+            type: text
+            class: large
+        slug:
+            type: slug
+            uses: title
+        image:
+            type: image
+        introduction:
+            type: html
+            height: 150px
+        body:
+            type: html
+            height: 300px
+        template:
+            type: templateselect
+            filter: '*.twig'
+    taxonomy: [ chapters ]
+    sort: title
+    recordsperpage: 100
+
+kitchensink:
+    name: Kitchensinks
+    singular_name: Kitchensink
+    fields:
+        title:
+            type: text
+            class: large
+        slug:
+            type: slug
+            uses: title
+        markdown:
+            type: markdown
+        textarea:
+            type: textarea
+        video:
+            type: video
+        html:
+            type: html
+            height: 150px
+        geolocation:
+            type: geolocation
+        image:
+            type: image
+        file:
+            type: file
+        template:
+            type: templateselect
+            filter: '*.twig'
+        datetime:
+            type: datetime
+        date:
+            type: date
+        integerfield:
+            type: integer
+        floatfield:
+            type: float
+    relations:
+        entries:
+            multiple: false
+            label: Choose an entry
+            order: -id
+    taxonomy: [ categories, tags, chapters ]
+    sort: title
+    recordsperpage: 8
+
+
+# possible field types:
+# text - varchar(256) - input type text.
+# integer - integer - Input field for integer numbers.
+# float - double - Input field for floating numbers, stored as 'Double'.
+# geolocation - text (65kb) - Input field for geolocation. Enter an address, and the location is geocoded to latitude/longitude coordinates
+# imagelist - text (65kb) - Input type for imagelists. Add multiple images with a description. Useful for image sliders, galleries, etcetera.
+# image - varchar(256) - image select/upload widget, stored as filename.
+# file - varchar(256) - file select/upload widget, stored as filename.
+# video - varchar(256) - Video embed widget, stored as filename.
+# html - text (65kb) - wysiwyg element.
+# textarea - varchar(32768) - Simple, plain < textarea > field.
+# datetime - datetime - date and time selector widget.
+# date - datetime - date selector widget.
+# templateselect - varchar(256) - select with template filenames
+
+
+# number (deprecated) - input type decimal(18,9), useful for storing number that need to be sortable
