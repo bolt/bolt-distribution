@@ -1,9 +1,10 @@
 #!/bin/sh
 
-FILENAME="bolt_0.9"
+FILENAME="bolt_0.9.8"
 export COPYFILE_DISABLE=true
 
 cd bolt-git/
+rm composer.lock
 git pull
 php composer.phar self-update
 php composer.phar update
@@ -20,7 +21,7 @@ find bolt/vendor -name "Tests" | xargs rm -rf
 rm -rf bolt/.git bolt/composer.* bolt/vendor/symfony/locale/Symfony/Component/Locale/Resources/data bolt/.gitignore
 rm -rf bolt/app/view/img/debug-nipple-src.png bolt/app/view/img/*.pxm bolt/app/view/img/bolt-logo.png
 rm -rf bolt/app/view/lib/codemirror/codemirror.js
-rm -rf vendor/swiftmailer/swiftmailer/doc vendor/swiftmailer/swiftmailer/notes vendor/swiftmailer/swiftmailer/test-suite
+rm -rf bolt/vendor/swiftmailer/swiftmailer/doc bolt/vendor/swiftmailer/swiftmailer/notes bolt/vendor/swiftmailer/swiftmailer/test-suite
 
 # remove ._ files..
 dot_clean .
@@ -30,6 +31,7 @@ cp bolt/app/config/config.yml.dist files/config.yml
 cp bolt/app/config/contenttypes.yml.dist files/contenttypes.yml
 cp bolt/app/config/menu.yml.dist files/menu.yml
 cp bolt/app/config/taxonomy.yml.dist files/taxonomy.yml
+cp bolt/.htaccess files/default.htaccess
 
 # setting the correct filerights
 find bolt -type d -exec chmod 755 {} \;
@@ -37,7 +39,7 @@ find bolt -type f -exec chmod 644 {} \;
 chmod -R 777 bolt/files bolt/app/cache bolt/app/config bolt/app/database bolt/theme
 
 # until DBAL is fixed (see: https://github.com/doctrine/dbal/pull/226 )
-cp overrides/SqliteSchemaManager.php bolt/vendor/doctrine/dbal/lib/Doctrine/DBAL/Schema/SqliteSchemaManager.php
+# cp overrides/SqliteSchemaManager.php bolt/vendor/doctrine/dbal/lib/Doctrine/DBAL/Schema/SqliteSchemaManager.php
 
 # Make the archives..
 cd bolt
