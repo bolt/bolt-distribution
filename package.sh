@@ -1,6 +1,6 @@
 #!/bin/sh
 
-FILENAME="bolt_0.9.8"
+FILENAME="bolt_0.9.10"
 export COPYFILE_DISABLE=true
 
 cd bolt-git/
@@ -22,6 +22,7 @@ rm -rf bolt/.git bolt/composer.* bolt/vendor/symfony/locale/Symfony/Component/Lo
 rm -rf bolt/app/view/img/debug-nipple-src.png bolt/app/view/img/*.pxm bolt/app/view/img/bolt-logo.png
 rm -rf bolt/app/view/lib/codemirror/codemirror.js
 rm -rf bolt/vendor/swiftmailer/swiftmailer/doc bolt/vendor/swiftmailer/swiftmailer/notes bolt/vendor/swiftmailer/swiftmailer/test-suite
+rm -rf bolt/theme/default bolt/theme/base-2013/to_be_deleted
 
 # remove ._ files..
 dot_clean .
