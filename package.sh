@@ -1,13 +1,14 @@
 #!/bin/sh
 
-FILENAME="bolt_0.9.10"
+FILENAME="bolt_1.0.3"
 export COPYFILE_DISABLE=true
 
 cd bolt-git/
 rm composer.lock
+git checkout 1.0.x
 git pull
 php composer.phar self-update
-php composer.phar update
+php composer.phar update --no-dev
 cd ..
 
 rm -rf bolt
@@ -21,6 +22,7 @@ find bolt/vendor -name "Tests" | xargs rm -rf
 rm -rf bolt/.git bolt/composer.* bolt/vendor/symfony/locale/Symfony/Component/Locale/Resources/data bolt/.gitignore
 rm -rf bolt/app/view/img/debug-nipple-src.png bolt/app/view/img/*.pxm bolt/app/view/img/bolt-logo.png
 rm -rf bolt/app/view/lib/codemirror/codemirror.js
+rm -rf bolt/app/classes/htmLawed/htmLawed_* bolt/app/classes/htmLawed/htmLawedTest.php
 rm -rf bolt/vendor/swiftmailer/swiftmailer/doc bolt/vendor/swiftmailer/swiftmailer/notes bolt/vendor/swiftmailer/swiftmailer/test-suite
 rm -rf bolt/theme/default bolt/theme/base-2013/to_be_deleted
 
