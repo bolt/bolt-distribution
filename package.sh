@@ -20,7 +20,7 @@ find bolt/vendor -name ".git" | xargs rm -rf
 find bolt/vendor -name "tests" | xargs rm -rf
 find bolt/vendor -name "Tests" | xargs rm -rf
 rm -rf bolt/.git bolt/composer.* bolt/vendor/symfony/locale/Symfony/Component/Locale/Resources/data bolt/.gitignore
-rm -rf bolt/app/view/img/debug-nipple-src.png bolt/app/view/img/*.pxm bolt/app/view/img/bolt-logo.png
+rm -rf bolt/app/view/img/debug-nipple-src.png bolt/app/view/img/*.pxm
 rm -rf bolt/app/view/lib/codemirror/codemirror.js
 rm -rf bolt/app/classes/htmLawed/htmLawed_* bolt/app/classes/htmLawed/htmLawedTest.php
 rm -rf bolt/vendor/swiftmailer/swiftmailer/doc bolt/vendor/swiftmailer/swiftmailer/notes bolt/vendor/swiftmailer/swiftmailer/test-suite
