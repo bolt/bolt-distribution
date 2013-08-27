@@ -1,7 +1,7 @@
 #!/bin/sh
 
 
-FILENAME="bolt_1.2_alpha"
+FILENAME="bolt_1.2_beta"
 export COPYFILE_DISABLE=true
 
 cd bolt-git/
@@ -20,6 +20,8 @@ rm -rf files/*
 find bolt/vendor -name ".git" | xargs rm -rf
 find bolt/vendor -name "tests" | xargs rm -rf
 find bolt/vendor -name "Tests" | xargs rm -rf
+find bolt/vendor -name "test" | xargs rm -rf
+find bolt/vendor -name "Test" | xargs rm -rf
 rm -rf bolt/.git bolt/composer.* bolt/vendor/symfony/locale/Symfony/Component/Locale/Resources/data bolt/.gitignore
 rm -rf bolt/app/view/img/debug-nipple-src.png bolt/app/view/img/*.pxm
 rm -rf bolt/vendor/swiftmailer/swiftmailer/doc bolt/vendor/swiftmailer/swiftmailer/notes bolt/vendor/swiftmailer/swiftmailer/test-suite
