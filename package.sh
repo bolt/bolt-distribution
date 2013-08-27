@@ -17,14 +17,14 @@ cp -rf bolt-git bolt
 
 rm -rf files/*
 
-find bolt/vendor -name ".git" | xargs rm -rf
-find bolt/vendor -name "tests" | xargs rm -rf
-find bolt/vendor -name "Tests" | xargs rm -rf
-find bolt/vendor -name "test" | xargs rm -rf
-find bolt/vendor -name "Test" | xargs rm -rf
-rm -rf bolt/.git bolt/composer.* bolt/vendor/symfony/locale/Symfony/Component/Locale/Resources/data bolt/.gitignore
+find bolt/vendor -type d -name ".git" | xargs rm -rf
+find bolt/vendor -type d -name "[tT]ests" | xargs rm -rf
+# find bolt/vendor -type d -name "[tT]est" | xargs rm -rf
+rm -rf bolt/vendor/psr/log/Psr/Log/Test bolt/vendor/symfony/form/Symfony/Component/Form/Test bolt/vendor/twig/twig/lib/Twig/Test 
+rm -rf bolt/vendor/twig/twig/test bolt/vendor/swiftmailer/swiftmailer/test-suite
+rm -rf bolt/composer.* bolt/vendor/symfony/locale/Symfony/Component/Locale/Resources/data bolt/.gitignore
 rm -rf bolt/app/view/img/debug-nipple-src.png bolt/app/view/img/*.pxm
-rm -rf bolt/vendor/swiftmailer/swiftmailer/doc bolt/vendor/swiftmailer/swiftmailer/notes bolt/vendor/swiftmailer/swiftmailer/test-suite
+rm -rf bolt/vendor/swiftmailer/swiftmailer/doc bolt/vendor/swiftmailer/swiftmailer/notes 
 rm -rf bolt/theme/default bolt/theme/base-2013/to_be_deleted
 rm -rf bolt/.scrutinizer.yml bolt/.travis.yml
 
