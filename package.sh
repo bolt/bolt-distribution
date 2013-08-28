@@ -19,7 +19,6 @@ rm -rf files/*
 
 find bolt/vendor -type d -name ".git" | xargs rm -rf
 find bolt/vendor -type d -name "[tT]ests" | xargs rm -rf
-# find bolt/vendor -type d -name "[tT]est" | xargs rm -rf
 rm -rf bolt/vendor/psr/log/Psr/Log/Test bolt/vendor/symfony/form/Symfony/Component/Form/Test bolt/vendor/twig/twig/lib/Twig/Test 
 rm -rf bolt/vendor/twig/twig/test bolt/vendor/swiftmailer/swiftmailer/test-suite
 rm -rf bolt/composer.* bolt/vendor/symfony/locale/Symfony/Component/Locale/Resources/data bolt/.gitignore
