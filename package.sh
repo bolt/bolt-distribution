@@ -1,7 +1,7 @@
 #!/bin/sh
 
 
-FILENAME="bolt_1.3_rc"
+FILENAME="bolt_1.3_rc2"
 export COPYFILE_DISABLE=true
 
 cd bolt-git/
@@ -16,9 +16,6 @@ rm -rf bolt
 cp -rf bolt-git bolt
 
 rm -rf files/*
-
-#until Krumo is caught up...
-cp -rf ../githubs/krumo bolt/vendor/oodle/
 
 find bolt -type d -name ".git" | xargs rm -rf
 find bolt -type d -name "[tT]ests" | xargs rm -rf
@@ -47,7 +44,6 @@ chmod -R 777 bolt/files bolt/app/cache bolt/app/config bolt/app/database bolt/th
 
 # until DBAL is fixed (see: https://github.com/doctrine/dbal/pull/226 )
 # cp overrides/SqliteSchemaManager.php bolt/vendor/doctrine/dbal/lib/Doctrine/DBAL/Schema/SqliteSchemaManager.php
-
 
 # Make the archives..
 cd bolt
