@@ -1,7 +1,7 @@
 #!/bin/sh
 
 
-FILENAME="bolt_1.3_rc"
+FILENAME="bolt_1.4_alpha"
 export COPYFILE_DISABLE=true
 
 cd bolt-git/
@@ -16,9 +16,6 @@ rm -rf bolt
 cp -rf bolt-git bolt
 
 rm -rf files/*
-
-#until Krumo is caught up...
-cp -rf ../githubs/krumo bolt/vendor/oodle/
 
 find bolt -type d -name ".git" | xargs rm -rf
 find bolt -type d -name "[tT]ests" | xargs rm -rf
@@ -45,18 +42,17 @@ find bolt -type d -exec chmod 755 {} \;
 find bolt -type f -exec chmod 644 {} \;
 chmod -R 777 bolt/files bolt/app/cache bolt/app/config bolt/app/database bolt/theme
 
-# until DBAL is fixed (see: https://github.com/doctrine/dbal/pull/226 )
-# cp overrides/SqliteSchemaManager.php bolt/vendor/doctrine/dbal/lib/Doctrine/DBAL/Schema/SqliteSchemaManager.php
-
+# until Profiler gets tagged. See https://github.com/silexphp/Silex-WebProfiler/pull/31 
+cp ../bolt/vendor/silex/web-profiler/Silex/Provider/WebProfilerServiceProvider.php bolt/vendor/silex/web-profiler/Silex/Provider/WebProfilerServiceProvider.php
 
 # Make the archives..
 cd bolt
 tar -czf ../$FILENAME.tgz * .htaccess
 zip -rq ../$FILENAME.zip * .htaccess
 cd ..
-cp $FILENAME.tgz ./files/bolt_latest.tgz
+# cp $FILENAME.tgz ./files/bolt_latest.tgz
 mv $FILENAME.tgz ./files/
-cp $FILENAME.zip ./files/bolt_latest.zip
+# cp $FILENAME.zip ./files/bolt_latest.zip
 mv $FILENAME.zip ./files/
 
 echo "\nAll done!\n"
