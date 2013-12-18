@@ -34,6 +34,7 @@ dot_clean .
 cp bolt/app/config/config.yml.dist files/config.yml
 cp bolt/app/config/contenttypes.yml.dist files/contenttypes.yml
 cp bolt/app/config/menu.yml.dist files/menu.yml
+cp bolt/app/config/routing.yml.dist files/routing.yml
 cp bolt/app/config/taxonomy.yml.dist files/taxonomy.yml
 cp bolt/.htaccess files/default.htaccess
 
