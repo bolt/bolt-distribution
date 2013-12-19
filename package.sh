@@ -45,6 +45,10 @@ chmod -R 777 bolt/files bolt/app/cache bolt/app/config bolt/app/database bolt/th
 # until Profiler gets tagged. See https://github.com/silexphp/Silex-WebProfiler/pull/31 
 cp ../bolt/vendor/silex/web-profiler/Silex/Provider/WebProfilerServiceProvider.php bolt/vendor/silex/web-profiler/Silex/Provider/WebProfilerServiceProvider.php
 
+# URandom in RandomLib. See https://github.com/ircmaxell/RandomLib/pull/16
+cp ../bolt/vendor/ircmaxell/random-lib/lib/RandomLib/Source/URandom.php bolt/vendor/ircmaxell/random-lib/lib/RandomLib/Source/URandom.php
+
+
 # Make the archives..
 cd bolt
 tar -czf ../$FILENAME.tgz * .htaccess
