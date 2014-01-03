@@ -1,7 +1,7 @@
 #!/bin/sh
 
 
-FILENAME="bolt_1.4.0"
+FILENAME="bolt_1.4.4"
 export COPYFILE_DISABLE=true
 
 cd bolt-git/
@@ -55,9 +55,9 @@ cd bolt
 tar -czf ../$FILENAME.tgz * .htaccess
 zip -rq ../$FILENAME.zip * .htaccess
 cd ..
-# cp $FILENAME.tgz ./files/bolt_latest.tgz
+cp $FILENAME.tgz ./files/bolt_latest.tgz
 mv $FILENAME.tgz ./files/
-# cp $FILENAME.zip ./files/bolt_latest.zip
+cp $FILENAME.zip ./files/bolt_latest.zip
 mv $FILENAME.zip ./files/
 
 echo "\nAll done!\n"
