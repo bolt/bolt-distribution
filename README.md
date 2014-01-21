@@ -1,4 +1,4 @@
 bolt-distribution
 =================
 
-Some simple scripts to package the Bolt distros
+Some simple scripts to package the Bolt distribution files. 
