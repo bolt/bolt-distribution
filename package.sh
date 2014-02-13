@@ -55,6 +55,7 @@ cd bolt
 tar -czf ../$FILENAME.tgz * .htaccess
 zip -rq ../$FILENAME.zip * .htaccess
 cd ..
+[[ -d "./files" ]] || mkdir ./files/
 cp $FILENAME.tgz ./files/bolt_latest.tgz
 mv $FILENAME.tgz ./files/
 cp $FILENAME.zip ./files/bolt_latest.zip
