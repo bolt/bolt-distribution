@@ -1,0 +1,19 @@
+--- a/bolt/vendor/silex/web-profiler/Silex/Provider/WebProfilerServiceProvider.php	2014-02-13 13:35:25.960763500 +0000
++++ b/bolt/vendor/silex/web-profiler/Silex/Provider/WebProfilerServiceProvider.php	2014-01-03 11:26:13.000000000 +0000
+@@ -34,6 +34,7 @@
+ use Silex\ControllerProviderInterface;
+ use Silex\ServiceControllerResolver;
+ 
++
+ /**
+  * Symfony Web Profiler provider.
+  *
+@@ -64,7 +65,7 @@
+ 
+         $app['data_collectors'] = array(
+             'config'    => $app->share(function ($app) { return new ConfigDataCollector(); }),
+-            'request'   => $app->share(function ($app) { return new RequestDataCollector(); }),
++            'request'   => $app->share(function ($app) { return new RequestDataCollector($app); }),
+             'exception' => $app->share(function ($app) { return new ExceptionDataCollector(); }),
+             'events'    => $app->share(function ($app) { return new EventDataCollector(); }),
+             'logger'    => $app->share(function ($app) { return new LoggerDataCollector($app['logger']); }),
