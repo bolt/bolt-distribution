@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 
 FILENAME="bolt_1.4.4"
