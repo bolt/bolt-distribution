@@ -31,12 +31,13 @@ rm -rf bolt/.scrutinizer.yml bolt/.travis.yml bolt/codeception.yml bolt/run-func
 dot_clean .
 
 # copy the default config files.
-cp bolt/app/config/config.yml.dist files/config.yml
-cp bolt/app/config/contenttypes.yml.dist files/contenttypes.yml
-cp bolt/app/config/menu.yml.dist files/menu.yml
-cp bolt/app/config/routing.yml.dist files/routing.yml
-cp bolt/app/config/taxonomy.yml.dist files/taxonomy.yml
-cp bolt/.htaccess files/default.htaccess
+[[ -d "./files" ]] || mkdir ./files/
+cp bolt/app/config/config.yml.dist ./files/config.yml
+cp bolt/app/config/contenttypes.yml.dist ./files/contenttypes.yml
+cp bolt/app/config/menu.yml.dist ./files/menu.yml
+cp bolt/app/config/routing.yml.dist ./files/routing.yml
+cp bolt/app/config/taxonomy.yml.dist ./files/taxonomy.yml
+cp bolt/.htaccess ./files/default.htaccess
 
 # setting the correct filerights
 find bolt -type d -exec chmod 755 {} \;
@@ -55,7 +56,6 @@ cd bolt
 tar -czf ../$FILENAME.tgz * .htaccess
 zip -rq ../$FILENAME.zip * .htaccess
 cd ..
-[[ -d "./files" ]] || mkdir ./files/
 cp $FILENAME.tgz ./files/bolt_latest.tgz
 mv $FILENAME.tgz ./files/
 cp $FILENAME.zip ./files/bolt_latest.zip
