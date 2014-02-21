@@ -49,6 +49,8 @@ patch -p1 < patch/WebProfilerServiceProvider.patch
 # URandom in RandomLib. See https://github.com/ircmaxell/RandomLib/pull/16
 patch -p1 < patch/URandom.patch
 
+# Add .htaccess file to vendor/
+cp extras/.htaccess bolt/vendor/.htaccess
 
 # Make the archives..
 cd bolt
