@@ -4,7 +4,7 @@ FILENAME="bolt_1.5.1"
 export COPYFILE_DISABLE=true
 
 cd bolt-git/
-rm composer.lock
+[[ -f 'composer.lock' ]] && rm composer.lock
 git checkout master
 git pull
 php composer.phar self-update
