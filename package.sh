@@ -1,12 +1,30 @@
 #!/bin/bash
 
-FILENAME="bolt_1.5.1"
+VERSION="1.5.1"
+
 export COPYFILE_DISABLE=true
 
 cd bolt-git/
 [[ -f 'composer.lock' ]] && rm composer.lock
 git checkout master
 git pull
+
+# If no parameter is passed to the script package the tagged version
+if [[ $1 = "" ]] ; then
+    echo Doing checkout of version tagged: v$VERSION
+    git checkout -q v$VERSION 
+    FILENAME="bolt_$VERSION"
+else
+    # If the parameter 'master' is passed, we already have it, else a commit ID
+    # shall be checked out
+    if [[ $1 != "master" ]] ; then
+        git checkout $1
+    fi
+    COD=$(git log -1 --date=short --format=%cd)
+    GID=$(git log -1 --format=%h)
+    FILENAME="bolt_git_$COD_$GID"
+fi
+
 php composer.phar self-update
 php composer.phar update --no-dev
 cd ..
@@ -57,9 +75,13 @@ cd bolt
 tar -czf ../$FILENAME.tgz * .htaccess
 zip -rq ../$FILENAME.zip * .htaccess
 cd ..
-cp $FILENAME.tgz ./files/bolt_latest.tgz
+
+# Only create 'latest' archives for version releases
+if [[ $1 = "" ]] ; then
+    cp $FILENAME.tgz ./files/bolt_latest.tgz
+    cp $FILENAME.zip ./files/bolt_latest.zip
+fi
 mv $FILENAME.tgz ./files/
-cp $FILENAME.zip ./files/bolt_latest.zip
 mv $FILENAME.zip ./files/
 
 echo "\nAll done!\n"
