@@ -27,7 +27,7 @@ rm -rf bolt/theme/default bolt/theme/base-2013/to_be_deleted
 rm -rf bolt/.scrutinizer.yml bolt/.travis.yml bolt/codeception.yml bolt/run-functional-tests
 
 # remove ._ files..
-dot_clean .
+[[ -f "/usr/sbin/dot_clean" ]] && dot_clean .
 
 # copy the default config files.
 [[ -d "./files" ]] || mkdir ./files/
