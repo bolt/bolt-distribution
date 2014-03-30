@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.5.1"
+VERSION="1.5.2"
 
 export COPYFILE_DISABLE=true
 
@@ -65,7 +65,7 @@ chmod -R 777 bolt/files bolt/app/cache bolt/app/config bolt/app/database bolt/th
 patch -p1 < patch/WebProfilerServiceProvider.patch
 
 # URandom in RandomLib. See https://github.com/ircmaxell/RandomLib/pull/16
-patch -p1 < patch/URandom.patch
+# patch -p1 < patch/URandom.patch
 
 # Add .htaccess file to vendor/
 cp extras/.htaccess bolt/vendor/.htaccess
