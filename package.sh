@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.6-beta"
+VERSION="1.6-RC"
 
 export COPYFILE_DISABLE=true
 
@@ -86,4 +86,4 @@ mv $FILENAME.zip ./files/
 
 echo "\nAll done!\n"
 
-# scp files/* bolt@128.140.220.72:/home/bolt/public_html/distribution/
+# scp files/* bolt@bolt.cm:/home/bolt/public_html/distribution/
