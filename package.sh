@@ -1,6 +1,6 @@
-#!/bin/bash
+hy#!/bin/bash
 
-VERSION="1.6-RC"
+VERSION="1.6-RC2"
 
 export COPYFILE_DISABLE=true
 
@@ -8,6 +8,8 @@ cd bolt-git/
 [[ -f 'composer.lock' ]] && rm composer.lock
 git checkout master
 git pull
+git submodule init
+git submodule update
 
 # If no parameter is passed to the script package the tagged version
 if [[ $1 = "" ]] ; then
@@ -34,7 +36,7 @@ cp -rf bolt-git bolt
 
 rm -rf files/*
 
-find bolt -type d -name ".git" | xargs rm -rf
+find bolt -name ".git*" | xargs rm -rf
 find bolt -type d -name "[tT]ests" | xargs rm -rf
 rm -rf bolt/vendor/psr/log/Psr/Log/Test bolt/vendor/symfony/form/Symfony/Component/Form/Test bolt/vendor/twig/twig/lib/Twig/Test
 rm -rf bolt/vendor/twig/twig/test bolt/vendor/swiftmailer/swiftmailer/test-suite
