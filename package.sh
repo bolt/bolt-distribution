@@ -1,6 +1,6 @@
-hy#!/bin/bash
+#!/bin/bash
 
-VERSION="1.6-RC2"
+VERSION="1.6-RC3"
 
 export COPYFILE_DISABLE=true
 
