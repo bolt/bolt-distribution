@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.6-RC3"
+VERSION="1.6.1"
 
 export COPYFILE_DISABLE=true
 
@@ -45,6 +45,7 @@ rm -rf bolt/app/view/img/debug-nipple-src.png bolt/app/view/img/*.pxm
 rm -rf bolt/vendor/swiftmailer/swiftmailer/doc bolt/vendor/swiftmailer/swiftmailer/notes
 rm -rf bolt/theme/default bolt/theme/base-2013/to_be_deleted
 rm -rf bolt/.scrutinizer.yml bolt/.travis.yml bolt/codeception.yml bolt/run-functional-tests
+rm bolt/theme/base-2014/Gruntfile.js bolt/theme/base-2014/package.json bolt/theme/base-2014/bower.json
 
 # remove ._ files..
 [[ -f "/usr/sbin/dot_clean" ]] && dot_clean .
