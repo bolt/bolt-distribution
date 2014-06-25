@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.5.6"
+VERSION="1.6.1"
 
 export COPYFILE_DISABLE=true
 
@@ -8,6 +8,8 @@ cd bolt-git/
 [[ -f 'composer.lock' ]] && rm composer.lock
 git checkout master
 git pull
+git submodule init
+git submodule update
 
 # If no parameter is passed to the script package the tagged version
 if [[ $1 = "" ]] ; then
@@ -34,7 +36,7 @@ cp -rf bolt-git bolt
 
 rm -rf files/*
 
-find bolt -type d -name ".git" | xargs rm -rf
+find bolt -name ".git*" | xargs rm -rf
 find bolt -type d -name "[tT]ests" | xargs rm -rf
 rm -rf bolt/vendor/psr/log/Psr/Log/Test bolt/vendor/symfony/form/Symfony/Component/Form/Test bolt/vendor/twig/twig/lib/Twig/Test
 rm -rf bolt/vendor/twig/twig/test bolt/vendor/swiftmailer/swiftmailer/test-suite
@@ -43,6 +45,7 @@ rm -rf bolt/app/view/img/debug-nipple-src.png bolt/app/view/img/*.pxm
 rm -rf bolt/vendor/swiftmailer/swiftmailer/doc bolt/vendor/swiftmailer/swiftmailer/notes
 rm -rf bolt/theme/default bolt/theme/base-2013/to_be_deleted
 rm -rf bolt/.scrutinizer.yml bolt/.travis.yml bolt/codeception.yml bolt/run-functional-tests
+rm bolt/theme/base-2014/Gruntfile.js bolt/theme/base-2014/package.json bolt/theme/base-2014/bower.json
 
 # remove ._ files..
 [[ -f "/usr/sbin/dot_clean" ]] && dot_clean .
@@ -86,4 +89,4 @@ mv $FILENAME.zip ./files/
 
 echo "\nAll done!\n"
 
-# scp files/* bolt@128.140.220.72:/home/bolt/public_html/distribution/
+# scp files/* bolt@bolt.cm:/home/bolt/public_html/distribution/
