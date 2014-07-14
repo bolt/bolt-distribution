@@ -1,15 +1,12 @@
 #!/bin/bash
 
-VERSION="1.6.1"
+VERSION="1.7.x"
 
 export COPYFILE_DISABLE=true
 
 cd bolt-git/
 [[ -f 'composer.lock' ]] && rm composer.lock
 git checkout master
-git pull
-git submodule init
-git submodule update
 
 # If no parameter is passed to the script package the tagged version
 if [[ $1 = "" ]] ; then
@@ -26,6 +23,10 @@ else
     GID=$(git log -1 --format=%h)
     FILENAME="bolt_git_$COD_$GID"
 fi
+
+git pull
+git submodule init
+git submodule update
 
 php composer.phar self-update
 php composer.phar update --no-dev
@@ -65,7 +66,7 @@ find bolt -type f -exec chmod 644 {} \;
 chmod -R 777 bolt/files bolt/app/cache bolt/app/config bolt/app/database bolt/theme
 
 # until Profiler gets tagged. See https://github.com/silexphp/Silex-WebProfiler/pull/31 
-patch -p1 < patch/WebProfilerServiceProvider.patch
+# patch -p1 < patch/WebProfilerServiceProvider.patch
 
 # URandom in RandomLib. See https://github.com/ircmaxell/RandomLib/pull/16
 # patch -p1 < patch/URandom.patch
