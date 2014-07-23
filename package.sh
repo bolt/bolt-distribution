@@ -8,8 +8,6 @@ cd bolt-git/
 [[ -f 'composer.lock' ]] && rm composer.lock
 git checkout master
 git pull
-git submodule init
-git submodule update
 
 # If no parameter is passed to the script package the tagged version
 if [[ $1 = "" ]] ; then
