@@ -63,11 +63,8 @@ find bolt -type d -exec chmod 755 {} \;
 find bolt -type f -exec chmod 644 {} \;
 chmod -R 777 bolt/files bolt/app/cache bolt/app/config bolt/app/database bolt/theme
 
-# until Profiler gets tagged. See https://github.com/silexphp/Silex-WebProfiler/pull/31 
-# patch -p1 < patch/WebProfilerServiceProvider.patch
-
-# URandom in RandomLib. See https://github.com/ircmaxell/RandomLib/pull/16
-# patch -p1 < patch/URandom.patch
+# Fix in Symfony's form validator. See https://github.com/symfony/Form/commit/fb0765dd0317c75d1c023a654dc6d805e0d95b0d
+# patch -p1 < patch/symfony-form-validator-2.5.3.patch
 
 # Add .htaccess file to vendor/
 cp extras/.htaccess bolt/vendor/.htaccess
