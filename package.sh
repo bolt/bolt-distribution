@@ -84,18 +84,14 @@ if [[ -f "./custom.sh" ]] ; then
 fi
 
 # Make the archives..
-cd bolt
-tar -czf ../$FILENAME.tgz * .htaccess
-zip -rq ../$FILENAME.zip * .htaccess
-cd ..
+tar -czf ./files/$FILENAME.tar.gz bolt/
+zip -rq  ./files/$FILENAME.zip    bolt/
 
 # Only create 'latest' archives for version releases
 if [[ $1 = "" ]] ; then
-    cp $FILENAME.tgz ./files/bolt_latest.tgz
-    cp $FILENAME.zip ./files/bolt_latest.zip
+    cp ./files/$FILENAME.tar.gz ./files/bolt_latest.tar.gz
+    cp ./files/$FILENAME.zip    ./files/bolt_latest.zip
 fi
-mv $FILENAME.tgz ./files/
-mv $FILENAME.zip ./files/
 
 # Execute custom post-archive event script
 if [[ -f "./custom.sh" ]] ; then
