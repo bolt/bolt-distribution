@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="2.0.x"
+VERSION="2.0.0-beta"
 
 export COPYFILE_DISABLE=true
 
@@ -16,7 +16,7 @@ git checkout master
 # If no parameter is passed to the script package the tagged version
 if [[ $1 = "" ]] ; then
     echo Doing checkout of version tagged: v$VERSION
-    git checkout -q v$VERSION 
+    git checkout -q v$VERSION
     FILENAME="bolt_$VERSION"
 else
     # If the parameter 'master' is passed, we already have it, else a commit ID
@@ -82,6 +82,9 @@ cp extras/.htaccess bolt/vendor/.htaccess
 if [[ -f "./custom.sh" ]] ; then
     custom_pre_archive
 fi
+
+# fix bolt issue 1768: make the tars behave more unix-like
+tar czf $FILENAME.tar.gz bolt/
 
 # Make the archives..
 tar -czf ./files/$FILENAME.tar.gz bolt/
