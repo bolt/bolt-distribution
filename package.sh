@@ -17,7 +17,8 @@ git checkout master
 if [[ $1 = "" ]] ; then
     echo Doing checkout of version tagged: v$VERSION
     git checkout -q v$VERSION
-    FILENAME="bolt_$VERSION"
+    FILENAME="bolt-$VERSION"
+    TARGETDIR="bolt-$VERSION"
 else
     # If the parameter 'master' is passed, we already have it, else a commit ID
     # shall be checked out
@@ -26,7 +27,8 @@ else
     fi
     COD=$(git log -1 --date=short --format=%cd)
     GID=$(git log -1 --format=%h)
-    FILENAME="bolt_git_$COD_$GID"
+    FILENAME="bolt-git-$COD-$GID"
+    TARGETDIR="bolt-git-$COD-$GID"
 fi
 
 git pull
@@ -35,65 +37,64 @@ php composer.phar self-update
 php composer.phar update --no-dev --optimize-autoloader
 cd ..
 
-rm -rf bolt
-cp -rf bolt-git bolt
+rm -rf build
+mkdir  build/
+cp -rf bolt-git build/$TARGETDIR
 
 rm -rf files/*
 
-find bolt -name ".git*" | xargs rm -rf
-find bolt -type d -name "[tT]ests" | xargs rm -rf
-rm -rf bolt/vendor/psr/log/Psr/Log/Test bolt/vendor/symfony/form/Symfony/Component/Form/Test bolt/vendor/twig/twig/lib/Twig/Test
-rm -rf bolt/vendor/twig/twig/test bolt/vendor/swiftmailer/swiftmailer/test-suite
-rm -rf bolt/composer.* bolt/vendor/symfony/locale/Symfony/Component/Locale/Resources/data bolt/.gitignore bolt/app/database/.gitignore
-rm -rf bolt/app/view/img/debug-nipple-src.png bolt/app/view/img/*.pxm
-rm -rf bolt/vendor/swiftmailer/swiftmailer/doc bolt/vendor/swiftmailer/swiftmailer/notes
-rm -rf bolt/theme/default bolt/theme/base-2013/to_be_deleted
-rm -rf bolt/.scrutinizer.yml bolt/.travis.yml bolt/codeception.yml bolt/run-functional-tests
-rm     bolt/theme/base-2014/Gruntfile.js bolt/theme/base-2014/package.json bolt/theme/base-2014/bower.json
-rm -rf bolt/CodeSniffer/
-rm -rf bolt/test/
-rm -rf bolt/tests/
-rm -f  phpunit.xml.dist
+cd build/
+find $TARGETDIR -name ".git*" | xargs rm -rf
+find $TARGETDIR -type d -name "[tT]ests" | xargs rm -rf
+rm -rf $TARGETDIR/vendor/psr/log/Psr/Log/Test $TARGETDIR/vendor/symfony/form/Symfony/Component/Form/Test $TARGETDIR/vendor/twig/twig/lib/Twig/Test
+rm -rf $TARGETDIR/vendor/twig/twig/test $TARGETDIR/vendor/swiftmailer/swiftmailer/test-suite
+rm -rf $TARGETDIR/composer.* $TARGETDIR/vendor/symfony/locale/Symfony/Component/Locale/Resources/data $TARGETDIR/.gitignore $TARGETDIR/app/database/.gitignore
+rm -rf $TARGETDIR/app/view/img/debug-nipple-src.png $TARGETDIR/app/view/img/*.pxm
+rm -rf $TARGETDIR/vendor/swiftmailer/swiftmailer/doc $TARGETDIR/vendor/swiftmailer/swiftmailer/notes
+rm -rf $TARGETDIR/theme/default $TARGETDIR/theme/base-2013/to_be_deleted
+rm -rf $TARGETDIR/.scrutinizer.yml $TARGETDIR/.travis.yml $TARGETDIR/codeception.yml $TARGETDIR/run-functional-tests
+rm -f  $TARGETDIR/theme/base-2014/Gruntfile.js $TARGETDIR/theme/base-2014/package.json $TARGETDIR/theme/base-2014/bower.json
+rm -rf $TARGETDIR/CodeSniffer/
+rm -rf $TARGETDIR/test/
+rm -rf $TARGETDIR/tests/
+rm -f  $TARGETDIR/phpunit.xml.dist
 
 # remove ._ files..
-[[ -f "/usr/sbin/dot_clean" ]] && dot_clean .
+[[ -f "/usr/sbin/dot_clean" ]] && dot_clean $TARGETDIR/.
 
 # copy the default config files.
-[[ -d "./files" ]] || mkdir ./files/
-cp bolt/app/config/config.yml.dist ./files/config.yml
-cp bolt/app/config/contenttypes.yml.dist ./files/contenttypes.yml
-cp bolt/app/config/menu.yml.dist ./files/menu.yml
-cp bolt/app/config/routing.yml.dist ./files/routing.yml
-cp bolt/app/config/taxonomy.yml.dist ./files/taxonomy.yml
-cp bolt/.htaccess ./files/default.htaccess
+[[ -d "../files" ]] || mkdir ../files/
+cp $TARGETDIR/app/config/config.yml.dist ../files/config.yml
+cp $TARGETDIR/app/config/contenttypes.yml.dist ../files/contenttypes.yml
+cp $TARGETDIR/app/config/menu.yml.dist ../files/menu.yml
+cp $TARGETDIR/app/config/routing.yml.dist ../files/routing.yml
+cp $TARGETDIR/app/config/taxonomy.yml.dist ../files/taxonomy.yml
+cp $TARGETDIR/.htaccess ../files/default.htaccess
 
 # setting the correct filerights
-find bolt -type d -exec chmod 755 {} \;
-find bolt -type f -exec chmod 644 {} \;
-chmod -R 777 bolt/files bolt/app/cache bolt/app/config bolt/app/database bolt/theme
+find $TARGETDIR -type d -exec chmod 755 {} \;
+find $TARGETDIR -type f -exec chmod 644 {} \;
+chmod -R 777 $TARGETDIR/files $TARGETDIR/app/cache $TARGETDIR/app/config $TARGETDIR/app/database $TARGETDIR/theme
 
 # Fix in Symfony's form validator. See https://github.com/symfony/Form/commit/fb0765dd0317c75d1c023a654dc6d805e0d95b0d
 # patch -p1 < patch/symfony-form-validator-2.5.3.patch
 
 # Add .htaccess file to vendor/
-cp extras/.htaccess bolt/vendor/.htaccess
+cp ../extras/.htaccess $TARGETDIR/vendor/.htaccess
 
 # Execute custom pre-archive event script
 if [[ -f "./custom.sh" ]] ; then
     custom_pre_archive
 fi
 
-# fix bolt issue 1768: make the tars behave more unix-like
-tar czf $FILENAME.tar.gz bolt/
-
 # Make the archives..
-tar -czf ./files/$FILENAME.tar.gz bolt/
-zip -rq  ./files/$FILENAME.zip    bolt/
+tar -czf ../files/$FILENAME.tar.gz $TARGETDIR/
+zip -rq  ../files/$FILENAME.zip    $TARGETDIR/
 
 # Only create 'latest' archives for version releases
 if [[ $1 = "" ]] ; then
-    cp ./files/$FILENAME.tar.gz ./files/bolt_latest.tar.gz
-    cp ./files/$FILENAME.zip    ./files/bolt_latest.zip
+    cp ../files/$FILENAME.tar.gz ../files/bolt-latest.tar.gz
+    cp ../files/$FILENAME.zip    ../files/bolt-latest.zip
 fi
 
 # Execute custom post-archive event script
