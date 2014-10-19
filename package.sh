@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.7.x"
+VERSION="2.0.x"
 
 export COPYFILE_DISABLE=true
 
@@ -46,6 +46,9 @@ rm -rf bolt/theme/default bolt/theme/base-2013/to_be_deleted
 rm -rf bolt/.scrutinizer.yml bolt/.travis.yml bolt/codeception.yml bolt/run-functional-tests
 rm     bolt/theme/base-2014/Gruntfile.js bolt/theme/base-2014/package.json bolt/theme/base-2014/bower.json
 rm -rf bolt/CodeSniffer/
+rm -rf bolt/test/
+rm -rf bolt/tests/
+rm -f  phpunit.xml.dist
 
 # remove ._ files..
 [[ -f "/usr/sbin/dot_clean" ]] && dot_clean .
