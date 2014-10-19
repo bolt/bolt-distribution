@@ -4,6 +4,11 @@ VERSION="2.0.x"
 
 export COPYFILE_DISABLE=true
 
+# Load any custom script if it exists
+if [[ -f "./custom.sh" ]] ; then
+    source ./custom.sh
+fi
+
 cd bolt-git/
 [[ -f 'composer.lock' ]] && rm composer.lock
 git checkout master
@@ -73,6 +78,11 @@ chmod -R 777 bolt/files bolt/app/cache bolt/app/config bolt/app/database bolt/th
 # Add .htaccess file to vendor/
 cp extras/.htaccess bolt/vendor/.htaccess
 
+# Execute custom pre-archive event script
+if [[ -f "./custom.sh" ]] ; then
+    custom_pre_archive
+fi
+
 # Make the archives..
 cd bolt
 tar -czf ../$FILENAME.tgz * .htaccess
@@ -86,6 +96,11 @@ if [[ $1 = "" ]] ; then
 fi
 mv $FILENAME.tgz ./files/
 mv $FILENAME.zip ./files/
+
+# Execute custom post-archive event script
+if [[ -f "./custom.sh" ]] ; then
+    custom_post_archive
+fi
 
 echo "\nAll done!\n"
 
