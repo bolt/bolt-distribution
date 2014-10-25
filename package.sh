@@ -4,9 +4,12 @@ VERSION="2.0.0-beta"
 
 export COPYFILE_DISABLE=true
 
+# Store the script working directory
+WD=$(pwd)
+
 # Load any custom script if it exists
-if [[ -f "./custom.sh" ]] ; then
-    source ./custom.sh
+if [[ -f "$WD/custom.sh" ]] ; then
+    source $WD/custom.sh
 fi
 
 cd bolt-git/
@@ -83,7 +86,7 @@ chmod -R 777 $TARGETDIR/files $TARGETDIR/app/cache $TARGETDIR/app/config $TARGET
 cp ../extras/.htaccess $TARGETDIR/vendor/.htaccess
 
 # Execute custom pre-archive event script
-if [[ -f "./custom.sh" ]] ; then
+if [[ -f "$WD/custom.sh" ]] ; then
     custom_pre_archive
 fi
 
@@ -98,7 +101,7 @@ if [[ $1 = "" ]] ; then
 fi
 
 # Execute custom post-archive event script
-if [[ -f "./custom.sh" ]] ; then
+if [[ -f "$WD/custom.sh" ]] ; then
     custom_post_archive
 fi
 
