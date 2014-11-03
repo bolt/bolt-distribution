@@ -15,6 +15,7 @@ fi
 cd bolt-git/
 [[ -f 'composer.lock' ]] && rm composer.lock
 git checkout master
+git pull
 
 # If no parameter is passed to the script package the tagged version
 if [[ $1 = "" ]] ; then
@@ -33,8 +34,6 @@ else
     FILENAME="bolt-git-$COD-$GID"
     TARGETDIR="bolt-git-$COD-$GID"
 fi
-
-git pull
 
 php composer.phar self-update
 php composer.phar update --no-dev --optimize-autoloader
