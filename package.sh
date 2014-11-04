@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="2.0.0-beta"
+VERSION="2.0.0-beta3"
 
 export COPYFILE_DISABLE=true
 
