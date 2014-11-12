@@ -2,6 +2,14 @@
 
 VERSION="2.0.0-beta"
 
+STABLE_VER="2.0.0"
+STABLE_NAME="patch1"
+STABLE_FILE="bolt-2.0.0"
+
+DEV_VER="2.1.0"
+DEV_NAME="alpha0"
+DEV_FILE="bolt-2.1.0-alpha0"
+
 export COPYFILE_DISABLE=true
 
 # Store the script working directory
@@ -98,6 +106,10 @@ if [[ $1 = "" ]] ; then
     cp ../files/$FILENAME.tar.gz ../files/bolt-latest.tar.gz
     cp ../files/$FILENAME.zip    ../files/bolt-latest.zip
 fi
+
+# Create version.json
+printf '{"stable":{"version":"%s","name":"%s","file":"%s"},"dev":{"version":"%s","name":"%s","file":"%s"}}' \
+    "$STABLE_VER" "$STABLE_NAME" "$STABLE_FILE" "$DEV_VER" "$DEV_NAME" "$DEV_FILE" > $WD/files/version.json
 
 # Execute custom post-archive event script
 if [[ -f "$WD/custom.sh" ]] ; then
