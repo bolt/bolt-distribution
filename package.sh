@@ -116,6 +116,6 @@ if [[ -f "$WD/custom.sh" ]] ; then
     custom_post_archive
 fi
 
-echo "\nAll done!\n"
+printf '\nAll done!\n'
 
 # scp files/* bolt@bolt.cm:/home/bolt/public_html/distribution/
