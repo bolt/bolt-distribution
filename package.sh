@@ -2,6 +2,14 @@
 
 VERSION="2.0.0-beta3"
 
+STABLE_VER="2.0.0"
+STABLE_NAME="patch1"
+STABLE_FILE="bolt-2.0.0"
+
+DEV_VER="2.1.0"
+DEV_NAME="alpha0"
+DEV_FILE="bolt-2.1.0-alpha0"
+
 export COPYFILE_DISABLE=true
 
 # Store the script working directory
@@ -15,6 +23,7 @@ fi
 cd bolt-git/
 [[ -f 'composer.lock' ]] && rm composer.lock
 git checkout master
+git pull --all
 
 # If no parameter is passed to the script package the tagged version
 if [[ $1 = "" ]] ; then
@@ -33,8 +42,6 @@ else
     FILENAME="bolt-git-$COD-$GID"
     TARGETDIR="bolt-git-$COD-$GID"
 fi
-
-git pull
 
 php composer.phar self-update
 php composer.phar update --no-dev --optimize-autoloader
@@ -66,13 +73,13 @@ rm -f  $TARGETDIR/phpunit.xml.dist
 [[ -f "/usr/sbin/dot_clean" ]] && dot_clean $TARGETDIR/.
 
 # copy the default config files.
-[[ -d "../files" ]] || mkdir ../files/
-cp $TARGETDIR/app/config/config.yml.dist ../files/config.yml
-cp $TARGETDIR/app/config/contenttypes.yml.dist ../files/contenttypes.yml
-cp $TARGETDIR/app/config/menu.yml.dist ../files/menu.yml
-cp $TARGETDIR/app/config/routing.yml.dist ../files/routing.yml
-cp $TARGETDIR/app/config/taxonomy.yml.dist ../files/taxonomy.yml
-cp $TARGETDIR/.htaccess ../files/default.htaccess
+[[ -d "$WD/files" ]] || mkdir $WD/files/
+cp $TARGETDIR/app/config/config.yml.dist $WD/files/config.yml
+cp $TARGETDIR/app/config/contenttypes.yml.dist $WD/files/contenttypes.yml
+cp $TARGETDIR/app/config/menu.yml.dist $WD/files/menu.yml
+cp $TARGETDIR/app/config/routing.yml.dist $WD/files/routing.yml
+cp $TARGETDIR/app/config/taxonomy.yml.dist $WD/files/taxonomy.yml
+cp $TARGETDIR/.htaccess $WD/files/default.htaccess
 
 # setting the correct filerights
 find $TARGETDIR -type d -exec chmod 755 {} \;
@@ -83,7 +90,7 @@ chmod -R 777 $TARGETDIR/files $TARGETDIR/app/cache $TARGETDIR/app/config $TARGET
 # patch -p1 < patch/symfony-form-validator-2.5.3.patch
 
 # Add .htaccess file to vendor/
-cp ../extras/.htaccess $TARGETDIR/vendor/.htaccess
+cp $WD/extras/.htaccess $TARGETDIR/vendor/.htaccess
 
 # Execute custom pre-archive event script
 if [[ -f "$WD/custom.sh" ]] ; then
@@ -91,20 +98,24 @@ if [[ -f "$WD/custom.sh" ]] ; then
 fi
 
 # Make the archives..
-tar -czf ../files/$FILENAME.tar.gz $TARGETDIR/
-zip -rq  ../files/$FILENAME.zip    $TARGETDIR/
+tar -czf $WD/files/$FILENAME.tar.gz $TARGETDIR/
+zip -rq  $WD/files/$FILENAME.zip    $TARGETDIR/
 
 # Only create 'latest' archives for version releases
 if [[ $1 = "" ]] ; then
-    cp ../files/$FILENAME.tar.gz ../files/bolt-latest.tar.gz
-    cp ../files/$FILENAME.zip    ../files/bolt-latest.zip
+    cp $WD/files/$FILENAME.tar.gz $WD/files/bolt-latest.tar.gz
+    cp $WD/files/$FILENAME.zip    $WD/files/bolt-latest.zip
 fi
+
+# Create version.json
+printf '{"stable":{"version":"%s","name":"%s","file":"%s"},"dev":{"version":"%s","name":"%s","file":"%s"}}' \
+    "$STABLE_VER" "$STABLE_NAME" "$STABLE_FILE" "$DEV_VER" "$DEV_NAME" "$DEV_FILE" > $WD/files/version.json
 
 # Execute custom post-archive event script
 if [[ -f "$WD/custom.sh" ]] ; then
     custom_post_archive
 fi
 
-echo "\nAll done!\n"
+printf '\nAll done!\n'
 
 # scp files/* bolt@bolt.cm:/home/bolt/public_html/distribution/
