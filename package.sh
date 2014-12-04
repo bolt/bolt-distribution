@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="2.0.0-beta5"
+VERSION="2.0.0-beta5pl4"
 
 STABLE_VER="2.0.0"
 STABLE_NAME=""
