@@ -4,3 +4,5 @@ files
 *.zip
 *.tgz
 custom.sh
+build/
+
