@@ -4,11 +4,11 @@ VERSION="2.0.5"
 
 STABLE_VER="2.0.5"
 STABLE_NAME=""
-STABLE_FILE="bolt-2.0.0"
+STABLE_FILE="bolt-$STABLE_VER"
 
 DEV_VER="2.1.0"
 DEV_NAME="alpha0"
-DEV_FILE="bolt-2.1.0-alpha0"
+DEV_FILE="bolt-$DEV_VER-$DEV_NAME"
 
 export COPYFILE_DISABLE=true
 
