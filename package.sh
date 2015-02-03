@@ -15,12 +15,22 @@ export COPYFILE_DISABLE=true
 # Store the script working directory
 WD=$(pwd)
 
+# Set our build directory
+BUILDDIR=$WD/build
+
+# Set our git repo directory
+GITDIR=$WD/bolt-git
+
+# Set our archive directory
+ARCHIVEDIR=$WD/files
+
 # Load any custom script if it exists
 if [[ -f "$WD/custom.sh" ]] ; then
     source $WD/custom.sh
 fi
 
-cd bolt-git/
+# Do a full pull on our git repo
+cd $GITDIR
 [[ -f 'composer.lock' ]] && rm composer.lock
 git checkout master
 git pull --all
@@ -43,17 +53,18 @@ else
     TARGETDIR="bolt-git-$COD-$GID"
 fi
 
+# Update Composer iteslf and any required packages
 php composer.phar self-update
 php composer.phar update --no-dev --optimize-autoloader
-cd ..
 
-rm -rf build
-mkdir  build/
-cp -rf bolt-git build/$TARGETDIR
+rm -rf $BUILDDIR
+mkdir  -p $BUILDDIR
+cp -rf $GITDIR/ $BUILDDIR/$TARGETDIR/
 
-rm -rf files/*
+rm -rf $ARCHIVEDIR/*
 
-cd build/
+# Remove extra stuff that is not needed for average installs
+cd $BUILDDIR
 find $TARGETDIR -name ".git*" | xargs rm -rf
 find $TARGETDIR -type d -name "[tT]ests" | xargs rm -rf
 rm -rf $TARGETDIR/vendor/psr/log/Psr/Log/Test $TARGETDIR/vendor/symfony/form/Symfony/Component/Form/Test $TARGETDIR/vendor/twig/twig/lib/Twig/Test
@@ -69,19 +80,22 @@ rm -rf $TARGETDIR/test/
 rm -rf $TARGETDIR/tests/
 rm -f  $TARGETDIR/phpunit.xml.dist
 
-# remove ._ files..
+# Remove ._ files
+cd $BUILDDIR
 [[ -f "/usr/sbin/dot_clean" ]] && dot_clean $TARGETDIR/.
 
-# copy the default config files.
-[[ -d "$WD/files" ]] || mkdir $WD/files/
-cp $TARGETDIR/app/config/config.yml.dist $WD/files/config.yml
-cp $TARGETDIR/app/config/contenttypes.yml.dist $WD/files/contenttypes.yml
-cp $TARGETDIR/app/config/menu.yml.dist $WD/files/menu.yml
-cp $TARGETDIR/app/config/routing.yml.dist $WD/files/routing.yml
-cp $TARGETDIR/app/config/taxonomy.yml.dist $WD/files/taxonomy.yml
-cp $TARGETDIR/.htaccess $WD/files/default.htaccess
+# Copy the default config files
+cd $BUILDDIR
+[[ -d "$ARCHIVEDIR" ]] || mkdir $ARCHIVEDIR/
+cp $TARGETDIR/app/config/config.yml.dist $ARCHIVEDIR/config.yml
+cp $TARGETDIR/app/config/contenttypes.yml.dist $ARCHIVEDIR/contenttypes.yml
+cp $TARGETDIR/app/config/menu.yml.dist $ARCHIVEDIR/menu.yml
+cp $TARGETDIR/app/config/routing.yml.dist $ARCHIVEDIR/routing.yml
+cp $TARGETDIR/app/config/taxonomy.yml.dist $ARCHIVEDIR/taxonomy.yml
+cp $TARGETDIR/.htaccess $ARCHIVEDIR/default.htaccess
 
-# setting the correct filerights
+# setting the correct file rights
+cd $BUILDDIR
 find $TARGETDIR -type d -exec chmod 755 {} \;
 find $TARGETDIR -type f -exec chmod 644 {} \;
 chmod -R 777 $TARGETDIR/files $TARGETDIR/app/cache $TARGETDIR/app/config $TARGETDIR/app/database $TARGETDIR/theme
@@ -90,6 +104,7 @@ chmod -R 777 $TARGETDIR/files $TARGETDIR/app/cache $TARGETDIR/app/config $TARGET
 # patch -p1 < patch/symfony-form-validator-2.5.3.patch
 
 # Add .htaccess file to vendor/
+cd $BUILDDIR
 cp $WD/extras/.htaccess $TARGETDIR/vendor/.htaccess
 
 # Execute custom pre-archive event script
@@ -97,19 +112,20 @@ if [[ -f "$WD/custom.sh" ]] ; then
     custom_pre_archive
 fi
 
-# Make the archives..
-tar -czf $WD/files/$FILENAME.tar.gz $TARGETDIR/
-zip -rq  $WD/files/$FILENAME.zip    $TARGETDIR/
+# Make the archives
+cd $BUILDDIR
+tar -czf $ARCHIVEDIR/$FILENAME.tar.gz $TARGETDIR/
+zip -rq  $ARCHIVEDIR/$FILENAME.zip    $TARGETDIR/
 
 # Only create 'latest' archives for version releases
 if [[ $1 = "" ]] ; then
-    cp $WD/files/$FILENAME.tar.gz $WD/files/bolt-latest.tar.gz
-    cp $WD/files/$FILENAME.zip    $WD/files/bolt-latest.zip
+    cp $ARCHIVEDIR/$FILENAME.tar.gz $ARCHIVEDIR/bolt-latest.tar.gz
+    cp $ARCHIVEDIR/$FILENAME.zip    $ARCHIVEDIR/bolt-latest.zip
 fi
 
 # Create version.json
 printf '{"stable":{"version":"%s","name":"%s","file":"%s"},"dev":{"version":"%s","name":"%s","file":"%s"}}' \
-    "$STABLE_VER" "$STABLE_NAME" "$STABLE_FILE" "$DEV_VER" "$DEV_NAME" "$DEV_FILE" > $WD/files/version.json
+    "$STABLE_VER" "$STABLE_NAME" "$STABLE_FILE" "$DEV_VER" "$DEV_NAME" "$DEV_FILE" > $ARCHIVEDIR/version.json
 
 # Execute custom post-archive event script
 if [[ -f "$WD/custom.sh" ]] ; then
