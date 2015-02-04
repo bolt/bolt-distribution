@@ -1,8 +1,8 @@
 #!/bin/bash
 
-VERSION="2.0.5"
+VERSION="2.0.6"
 
-STABLE_VER="2.0.5"
+STABLE_VER="2.0.6"
 STABLE_NAME=""
 STABLE_FILE="bolt-$STABLE_VER"
 
