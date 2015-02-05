@@ -71,7 +71,7 @@ rm -rf $TARGETDIR/vendor/psr/log/Psr/Log/Test $TARGETDIR/vendor/symfony/form/Sym
 rm -rf $TARGETDIR/vendor/twig/twig/test $TARGETDIR/vendor/swiftmailer/swiftmailer/test-suite
 rm -rf $TARGETDIR/composer.* $TARGETDIR/vendor/symfony/locale/Symfony/Component/Locale/Resources/data $TARGETDIR/.gitignore $TARGETDIR/app/database/.gitignore
 rm -rf $TARGETDIR/app/view/img/debug-nipple-src.png $TARGETDIR/app/view/img/*.pxm
-rm -rf $TARGETDIR/app/view/lib/
+#rm -rf $TARGETDIR/app/view/lib/
 rm -rf $TARGETDIR/vendor/swiftmailer/swiftmailer/doc $TARGETDIR/vendor/swiftmailer/swiftmailer/notes
 rm -rf $TARGETDIR/theme/default $TARGETDIR/theme/base-2013/to_be_deleted
 rm -rf $TARGETDIR/.scrutinizer.yml $TARGETDIR/.travis.yml $TARGETDIR/codeception.yml $TARGETDIR/run-functional-tests
