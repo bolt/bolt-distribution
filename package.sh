@@ -70,7 +70,7 @@ find $TARGETDIR -type d -name "[tT]ests" | xargs rm -rf
 rm -rf $TARGETDIR/vendor/psr/log/Psr/Log/Test $TARGETDIR/vendor/symfony/form/Symfony/Component/Form/Test $TARGETDIR/vendor/twig/twig/lib/Twig/Test
 rm -rf $TARGETDIR/vendor/twig/twig/test $TARGETDIR/vendor/swiftmailer/swiftmailer/test-suite
 rm -rf $TARGETDIR/composer.phar $TARGETDIR/vendor/symfony/locale/Symfony/Component/Locale/Resources/data $TARGETDIR/.gitignore $TARGETDIR/app/database/.gitignore
-rm -rf $TARGETDIR/app/view/img/debug-nipple-src.png $TARGETDIR/app/view/img/*.pxm
+rm -rf $TARGETDIR/app/view/img/debug-nipple-src.png $TARGETDIR/app/view/img/*.pxm $TARGETDIR/app/view/lib $TARGETDIR/app/view/src $TARGETDIR/app/view/sass 
 #rm -rf $TARGETDIR/app/view/lib/
 rm -rf $TARGETDIR/vendor/swiftmailer/swiftmailer/doc $TARGETDIR/vendor/swiftmailer/swiftmailer/notes
 rm -rf $TARGETDIR/theme/default $TARGETDIR/theme/base-2013/to_be_deleted
