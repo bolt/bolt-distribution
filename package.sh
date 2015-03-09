@@ -1,12 +1,12 @@
 #!/bin/bash
 
-VERSION="2.0.6"
+VERSION="2.1.0"
 
-STABLE_VER="2.0.6"
+STABLE_VER="2.1.0"
 STABLE_NAME=""
 STABLE_FILE="bolt-$STABLE_VER"
 
-DEV_VER="2.1.0"
+DEV_VER="2.2.0"
 DEV_NAME="alpha0"
 DEV_FILE="bolt-$DEV_VER-$DEV_NAME"
 
@@ -74,7 +74,7 @@ rm -rf $TARGETDIR/app/view/img/debug-nipple-src.png $TARGETDIR/app/view/img/*.px
 #rm -rf $TARGETDIR/app/view/lib/
 rm -rf $TARGETDIR/vendor/swiftmailer/swiftmailer/doc $TARGETDIR/vendor/swiftmailer/swiftmailer/notes
 rm -rf $TARGETDIR/theme/default $TARGETDIR/theme/base-2013/to_be_deleted
-rm -rf $TARGETDIR/.scrutinizer.yml $TARGETDIR/.travis.yml $TARGETDIR/codeception.yml $TARGETDIR/run-functional-tests
+rm -rf $TARGETDIR/.scrutinizer.yml $TARGETDIR/.travis.yml $TARGETDIR/codeception.yml $TARGETDIR/run-functional-tests $TARGETDIR/contributing.md
 rm -f  $TARGETDIR/theme/base-2014/Gruntfile.js $TARGETDIR/theme/base-2014/package.json $TARGETDIR/theme/base-2014/bower.json
 rm -rf $TARGETDIR/CodeSniffer/
 rm -rf $TARGETDIR/test/
