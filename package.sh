@@ -55,6 +55,7 @@ fi
 
 # Update Composer iteslf and any required packages
 php composer.phar self-update
+php composer.phar require --no-update guzzle/guzzle ~3.9
 php composer.phar update --no-dev --optimize-autoloader
 
 rm -rf $BUILDDIR
