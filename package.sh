@@ -70,18 +70,15 @@ find $TARGETDIR -name ".git*" | xargs rm -rf
 find $TARGETDIR -type d -name "[tT]ests" | xargs rm -rf
 rm -rf $TARGETDIR/app/database/.gitignore \
        $TARGETDIR/app/src/ \
-       $TARGETDIR/app/view/img/debug-nipple-src.png \ 
-       $TARGETDIR/app/view/img/*.pxm \
+       $TARGETDIR/app/view/img/debug-nipple-src.png \
        $TARGETDIR/app/view/lib \
        $TARGETDIR/app/view/sass \
        $TARGETDIR/app/view/src \
-       $TARGETDIR/codeception.yml \ 
-       $TARGETDIR/CodeSniffer/ \
+       $TARGETDIR/codeception.yml \
        $TARGETDIR/composer.phar \
        $TARGETDIR/contributing.md \
        $TARGETDIR/phpunit.xml.dist \
-       $TARGETDIR/run-functional-tests \ 
-       $TARGETDIR/test/ \
+       $TARGETDIR/run-functional-tests \
        $TARGETDIR/tests/ \
        $TARGETDIR/theme/base-2013/to_be_deleted \
        $TARGETDIR/theme/base-2014/bower.json \
@@ -98,7 +95,7 @@ rm -rf $TARGETDIR/app/database/.gitignore \
        $TARGETDIR/vendor/twig/twig/test \
        $TARGETDIR/.gitignore \
        $TARGETDIR/.scrutinizer.yml \
-       $TARGETDIR/.travis.yml
+       $TARGETDIR/.travis.*
 
 mv $TARGETDIR/composer.json $TARGETDIR/composer.json.dist
 mv $TARGETDIR/composer.lock $TARGETDIR/composer.lock.dist
