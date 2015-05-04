@@ -65,37 +65,8 @@ cp -rf $GITDIR/ $BUILDDIR/$TARGETDIR/
 rm -rf $ARCHIVEDIR/*
 
 # Remove extra stuff that is not needed for average installs
-cd $BUILDDIR
-find $TARGETDIR -name ".git*" | xargs rm -rf
-find $TARGETDIR -type d -name "[tT]ests" | xargs rm -rf
-rm -rf $TARGETDIR/app/database/.gitignore \
-       $TARGETDIR/app/src/ \
-       $TARGETDIR/app/view/img/debug-nipple-src.png \
-       $TARGETDIR/app/view/lib \
-       $TARGETDIR/app/view/sass \
-       $TARGETDIR/app/view/src \
-       $TARGETDIR/codeception.yml \
-       $TARGETDIR/composer.phar \
-       $TARGETDIR/contributing.md \
-       $TARGETDIR/phpunit.xml.dist \
-       $TARGETDIR/run-functional-tests \
-       $TARGETDIR/tests/ \
-       $TARGETDIR/theme/base-2013/to_be_deleted \
-       $TARGETDIR/theme/base-2014/bower.json \
-       $TARGETDIR/theme/base-2014/Gruntfile.js \
-       $TARGETDIR/theme/base-2014/package.json \
-       $TARGETDIR/theme/default \
-       $TARGETDIR/vendor/psr/log/Psr/Log/Test \
-       $TARGETDIR/vendor/swiftmailer/swiftmailer/doc \
-       $TARGETDIR/vendor/swiftmailer/swiftmailer/notes \
-       $TARGETDIR/vendor/swiftmailer/swiftmailer/test-suite \
-       $TARGETDIR/vendor/symfony/form/Symfony/Component/Form/Test \
-       $TARGETDIR/vendor/symfony/locale/Symfony/Component/Locale/Resources/data \
-       $TARGETDIR/vendor/twig/twig/lib/Twig/Test \
-       $TARGETDIR/vendor/twig/twig/test \
-       $TARGETDIR/.gitignore \
-       $TARGETDIR/.scrutinizer.yml \
-       $TARGETDIR/.travis.*
+cd $WD 
+rsync -av --delete --cvs-exclude --exclude-from=$WD/excluded.files $GITDIR/ $BUILDDIR/
 
 mv $TARGETDIR/composer.json $TARGETDIR/composer.json.dist
 mv $TARGETDIR/composer.lock $TARGETDIR/composer.lock.dist
