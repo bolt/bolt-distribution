@@ -1,10 +1,10 @@
 app/src/
-app/view/img/debug-nipple-src.png 
+app/view/img/debug-nipple-src.png
 app/view/img/*.pxm
 app/view/lib
 app/view/sass
 app/view/src
-codeception.yml 
+codeception.yml
 CodeSniffer/
 composer.json
 composer.lock
@@ -13,7 +13,7 @@ contributing.md
 .gitattributes
 .gitignore
 phpunit.xml.dist
-run-functional-tests 
+run-functional-tests
 .scrutinizer.yml
 test
 tests
