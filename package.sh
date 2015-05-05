@@ -16,13 +16,13 @@ export COPYFILE_DISABLE=true
 WD=$(pwd)
 
 # Set our build directory
-BUILDDIR=$WD/build
+ROOT_BUILD=$WD/build
 
 # Set our git repo directory
-GITDIR=$WD/bolt-git
+ROOT_GIT=$WD/bolt-git
 
 # Set our archive directory
-ARCHIVEDIR=$WD/files
+ROOT_ARCHIVE=$WD/files
 
 # Load any custom script if it exists
 if [[ -f "$WD/custom.sh" ]] ; then
@@ -30,17 +30,18 @@ if [[ -f "$WD/custom.sh" ]] ; then
 fi
 
 # Do a full pull on our git repo
-cd $GITDIR
-[[ -f 'composer.lock' ]] && rm composer.lock
+cd $ROOT_GIT
+git reset --hard HEAD
 git checkout master
-git pull --all
+git fetch --all
+git reset --hard origin/master
 
 # If no parameter is passed to the script package the tagged version
 if [[ $1 = "" ]] ; then
     echo Doing checkout of version tagged: v$VERSION
     git checkout -q v$VERSION
     FILENAME="bolt-$VERSION"
-    TARGETDIR="bolt-$VERSION"
+    DISTDIR="bolt-$VERSION"
 else
     # If the parameter 'master' is passed, we already have it, else a commit ID
     # shall be checked out
@@ -50,53 +51,47 @@ else
     COD=$(git log -1 --date=short --format=%cd)
     GID=$(git log -1 --format=%h)
     FILENAME="bolt-git-$COD-$GID"
-    TARGETDIR="bolt-git-$COD-$GID"
+    DISTDIR="bolt-git-$COD-$GID"
 fi
 
 # Update Composer iteslf and any required packages
+[[ -f 'composer.lock' ]] && rm composer.lock
 php composer.phar self-update
 php composer.phar require --no-update guzzle/guzzle ~3.9
 php composer.phar update --no-dev --optimize-autoloader
 
-rm -rf $BUILDDIR
-mkdir  -p $BUILDDIR
-cp -rf $GITDIR/ $BUILDDIR/$TARGETDIR/
-
-rm -rf $ARCHIVEDIR/*
+rm -rf $ROOT_ARCHIVE/*
+rm -rf $ROOT_BUILD
+mkdir -p $ROOT_BUILD/$DISTDIR
 
 # Remove extra stuff that is not needed for average installs
-cd $WD 
-rsync -av --delete --cvs-exclude --exclude-from=$WD/excluded.files $GITDIR/ $BUILDDIR/
+rsync -a --delete --cvs-exclude --exclude-from=$WD/excluded.files $ROOT_GIT/ $ROOT_BUILD/$DISTDIR
 
-mv $TARGETDIR/composer.json $TARGETDIR/composer.json.dist
-mv $TARGETDIR/composer.lock $TARGETDIR/composer.lock.dist
+cp $ROOT_GIT/composer.json $ROOT_BUILD/$DISTDIR/composer.json.dist
+cp $ROOT_GIT/composer.lock $ROOT_BUILD/$DISTDIR/composer.lock.dist
 
 # Remove ._ files
-cd $BUILDDIR
-[[ -f "/usr/sbin/dot_clean" ]] && dot_clean $TARGETDIR/.
+[[ -f "/usr/sbin/dot_clean" ]] && dot_clean $ROOT_BUILD/$DISTDIR/.
 
 # Copy the default config files
-cd $BUILDDIR
-[[ -d "$ARCHIVEDIR" ]] || mkdir $ARCHIVEDIR/
-cp $TARGETDIR/app/config/config.yml.dist $ARCHIVEDIR/config.yml
-cp $TARGETDIR/app/config/contenttypes.yml.dist $ARCHIVEDIR/contenttypes.yml
-cp $TARGETDIR/app/config/menu.yml.dist $ARCHIVEDIR/menu.yml
-cp $TARGETDIR/app/config/routing.yml.dist $ARCHIVEDIR/routing.yml
-cp $TARGETDIR/app/config/taxonomy.yml.dist $ARCHIVEDIR/taxonomy.yml
-cp $TARGETDIR/.htaccess $ARCHIVEDIR/default.htaccess
+[[ -d "$ROOT_ARCHIVE" ]] || mkdir $ROOT_ARCHIVE/
+cp $ROOT_GIT/app/config/config.yml.dist       $ROOT_ARCHIVE/config.yml
+cp $ROOT_GIT/app/config/contenttypes.yml.dist $ROOT_ARCHIVE/contenttypes.yml
+cp $ROOT_GIT/app/config/menu.yml.dist         $ROOT_ARCHIVE/menu.yml
+cp $ROOT_GIT/app/config/routing.yml.dist      $ROOT_ARCHIVE/routing.yml
+cp $ROOT_GIT/app/config/taxonomy.yml.dist     $ROOT_ARCHIVE/taxonomy.yml
+cp $ROOT_GIT/.htaccess $ROOT_ARCHIVE/default.htaccess
 
 # setting the correct file rights
-cd $BUILDDIR
-find $TARGETDIR -type d -exec chmod 755 {} \;
-find $TARGETDIR -type f -exec chmod 644 {} \;
-chmod -R 777 $TARGETDIR/files $TARGETDIR/app/cache $TARGETDIR/app/config $TARGETDIR/app/database $TARGETDIR/theme
+find $ROOT_BUILD/$DISTDIR -type d -exec chmod 755 {} \;
+find $ROOT_BUILD/$DISTDIR -type f -exec chmod 644 {} \;
+chmod -R 777 $ROOT_BUILD/$DISTDIR/files $ROOT_BUILD/$DISTDIR/app/cache $ROOT_BUILD/$DISTDIR/app/config $ROOT_BUILD/$DISTDIR/app/database $ROOT_BUILD/$DISTDIR/theme
 
 # Fix in Symfony's form validator. See https://github.com/symfony/Form/commit/fb0765dd0317c75d1c023a654dc6d805e0d95b0d
 # patch -p1 < patch/symfony-form-validator-2.5.3.patch
 
 # Add .htaccess file to vendor/
-cd $BUILDDIR
-cp $WD/extras/.htaccess $TARGETDIR/vendor/.htaccess
+cp $WD/extras/.htaccess $ROOT_BUILD/$DISTDIR/vendor/.htaccess
 
 # Execute custom pre-archive event script
 if [[ -f "$WD/custom.sh" ]] ; then
@@ -104,25 +99,25 @@ if [[ -f "$WD/custom.sh" ]] ; then
 fi
 
 # Make the archives
-cd $BUILDDIR
-tar -czf $ARCHIVEDIR/$FILENAME.tar.gz $TARGETDIR/
-zip -rq  $ARCHIVEDIR/$FILENAME.zip    $TARGETDIR/
+cd $ROOT_BUILD
+tar -czf $ROOT_ARCHIVE/$FILENAME.tar.gz $DISTDIR/
+zip -rq  $ROOT_ARCHIVE/$FILENAME.zip    $DISTDIR/
 
 # Only create 'latest' archives for version releases
 if [[ $1 = "" ]] ; then
-    cp $ARCHIVEDIR/$FILENAME.tar.gz $ARCHIVEDIR/bolt-latest.tar.gz
-    cp $ARCHIVEDIR/$FILENAME.zip    $ARCHIVEDIR/bolt-latest.zip
+    cp $ROOT_ARCHIVE/$FILENAME.tar.gz $ROOT_ARCHIVE/bolt-latest.tar.gz
+    cp $ROOT_ARCHIVE/$FILENAME.zip    $ROOT_ARCHIVE/bolt-latest.zip
 fi
 
 # Create version.json
 printf '{"stable":{"version":"%s","name":"%s","file":"%s"},"dev":{"version":"%s","name":"%s","file":"%s"}}' \
-    "$STABLE_VER" "$STABLE_NAME" "$STABLE_FILE" "$DEV_VER" "$DEV_NAME" "$DEV_FILE" > $ARCHIVEDIR/version.json
+    "$STABLE_VER" "$STABLE_NAME" "$STABLE_FILE" "$DEV_VER" "$DEV_NAME" "$DEV_FILE" > $ROOT_ARCHIVE/version.json
 
 # Execute custom post-archive event script
 if [[ -f "$WD/custom.sh" ]] ; then
     custom_post_archive
 fi
 
-printf '\nAll done!\n'
+printf 'All done!'
 
 # scp files/* bolt@bolt.cm:/home/bolt/public_html/distribution/
