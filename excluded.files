@@ -10,6 +10,7 @@ composer.json
 composer.lock
 composer.phar
 contributing.md
+.git
 .gitattributes
 .gitignore
 phpunit.xml.dist
