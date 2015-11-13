@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="2.1.0"
+VERSION="2.3.0-alpha4"
 
 STABLE_VER="2.1.0"
 STABLE_NAME=""
@@ -54,10 +54,10 @@ else
     DISTDIR="bolt-git-$COD-$GID"
 fi
 
-# Update Composer iteslf and any required packages
+# Update Composer itself and any required packages
 [[ -f 'composer.lock' ]] && rm composer.lock
 php composer.phar self-update
-php composer.phar require --no-update guzzle/guzzle ~3.9
+# php composer.phar require --no-update guzzle/guzzle ~3.9
 php composer.phar update --no-dev --optimize-autoloader
 
 rm -rf $ROOT_ARCHIVE/*
@@ -90,9 +90,6 @@ chmod -R 777 $ROOT_BUILD/$DISTDIR/files $ROOT_BUILD/$DISTDIR/app/cache $ROOT_BUI
 cd $ROOT_BUILD/$DISTDIR
 # Fix in Symfony's form validator. See https://github.com/symfony/Form/commit/fb0765dd0317c75d1c023a654dc6d805e0d95b0d
 # patch -p1 < patch/symfony-form-validator-2.5.3.patch
-
-# Make ReactPHP Promise globals safe for PHP 5.3
-patch -p1 < $WD/patch/reactphp-promise-php-5.3.diff
 
 # Add .htaccess file to vendor/
 cp $WD/extras/.htaccess $ROOT_BUILD/$DISTDIR/vendor/.htaccess
