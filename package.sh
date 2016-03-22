@@ -24,7 +24,7 @@ cd $WD
 rm -rf $WD/build/
 
 # Create a Composer project directory
-composer create-project bolt/composer-install:^3.0 $COMPILE_DIR --prefer-dist --no-interaction -stability dev
+composer create-project bolt/composer-install:^3.0 $COMPILE_DIR --prefer-dist --no-interaction --stability dev
 if [ $? -ne 0 ] ; then
     echo "Composer did not complete successfully"
     exit 255
