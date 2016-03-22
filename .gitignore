@@ -1,8 +1,5 @@
-bolt-git
-bolt
-files
-*.zip
-*.tgz
+!.gitignore
+!.htaccess
+/build/
+/files/
 custom.sh
-build/
-
