@@ -30,11 +30,6 @@ if [ $? -ne 0 ] ; then
     exit 255
 fi
 
-# Copy in theme
-rsync -a $COMPILE_DIR/vendor/bolt/bolt/theme/base-2014/ $COMPILE_DIR/public/theme/base-2014/
-rsync -a $COMPILE_DIR/vendor/bolt/bolt/theme/base-2016/ $COMPILE_DIR/public/theme/base-2016/
-rsync -a $COMPILE_DIR/vendor/bolt/bolt/files/ $COMPILE_DIR/public/files/
-
 # Set file & directory permssions
 find $COMPILE_DIR -type d -exec chmod 755 {} \;
 find $COMPILE_DIR -type f -exec chmod 644 {} \;
