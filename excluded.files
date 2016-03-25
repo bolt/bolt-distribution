@@ -10,10 +10,6 @@ public/theme/base-2014/
 public/theme/default/
 vendor/bolt/bolt/app/cache
 vendor/bolt/bolt/app/src
-vendor/bolt/bolt/app/view/css
-vendor/bolt/bolt/app/view/fonts
-vendor/bolt/bolt/app/view/img
-vendor/bolt/bolt/app/view/js
 vendor/bolt/bolt/app/view/lib
 vendor/bolt/bolt/app/view/sass
 vendor/bolt/bolt/app/view/src
