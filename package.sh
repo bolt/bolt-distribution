@@ -46,6 +46,10 @@ cp $WD/extras/.htaccess $COMPILE_DIR/vendor/.htaccess
 # Remove extra stuff that is not needed for average installs
 rsync -a --delete --cvs-exclude --exclude-from=$WD/excluded.files $COMPILE_DIR/ $SHIPPING_DIR/
 
+# Don't overwrite user modified Composer files
+mv $SHIPPING_DIR/composer.json $SHIPPING_DIR/composer.json.dist
+mv $SHIPPING_DIR/composer.lock $SHIPPING_DIR/composer.lock.dist
+
 # Execute custom pre-archive event script
 if [[ -f "$WD/custom.sh" ]] ; then
     custom_pre_archive
