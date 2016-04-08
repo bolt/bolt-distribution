@@ -60,6 +60,7 @@ rm -f $ARCHIVE_DIR/*.tar.gz
 rm -f $ARCHIVE_DIR/*.zip
 
 cd $BUILD_DIR
+cp $PACKAGE/vendor/bolt/bolt/app/config/*yml.dist $ARCHIVE_DIR/
 tar -czf $ARCHIVE_DIR/$PACKAGE.tar.gz $PACKAGE/
 zip -rq  $ARCHIVE_DIR/$PACKAGE.zip    $PACKAGE/
 cd $WD
