@@ -2,6 +2,15 @@ diff --git a/src/functions.php b/src/functions.php
 index 9b361dd..b05c91c 100644
 --- a/vendor/react/promise/src/functions.php
 +++ b/vendor/react/promise/src/functions.php
+@@ -12,7 +12,7 @@
+         $canceller = null;
+ 
+         if (method_exists($promiseOrValue, 'cancel')) {
+-            $canceller = [$promiseOrValue, 'cancel'];
++            $canceller = array($promiseOrValue, 'cancel');
+         }
+ 
+         return new Promise(function ($resolve, $reject, $notify) use ($promiseOrValue) {
 @@ -91,7 +91,7 @@
          resolve($promisesOrValues)
              ->done(function ($array) use ($howMany, $cancellationQueue, $resolve, $reject, $notify) {
