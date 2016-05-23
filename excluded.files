@@ -1,3 +1,4 @@
+.DS_Store
 app/cache/profiler
 app/cache/.assetsalt
 app/cache/.version
