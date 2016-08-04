@@ -2,12 +2,25 @@
 
 VERSION="3.0.0"
 
+if [[ $1 = "" ]] ; then
+    echo "ERROR: A Composer version constraint is required."
+    echo ""
+    echo "Usage examples:"
+    echo "    $BASH_SOURCE ^3.1"
+    echo "    $BASH_SOURCE ^3.2@beta"
+    echo "    $BASH_SOURCE ^3.3@dev"
+    echo ""
+
+    exit 1
+fi
+
 # OS X stupidity
 export COPYFILE_DISABLE=true
 
 # Store the script working directory
 WD=$(pwd)
 
+CONSTRAINT=$1
 PACKAGE=bolt-${VERSION}
 BUILD_DIR=$WD/build
 COMPILE_DIR=$BUILD_DIR/compile
@@ -24,7 +37,7 @@ cd $WD
 rm -rf $WD/build/
 
 # Create a Composer project directory
-composer create-project bolt/composer-install:^3.0 $COMPILE_DIR --prefer-dist --no-interaction --stability dev
+composer create-project bolt/composer-install:$CONSTRAINT $COMPILE_DIR --prefer-dist --no-interaction --stability dev
 if [ $? -ne 0 ] ; then
     echo "Composer did not complete successfully"
     exit 255
