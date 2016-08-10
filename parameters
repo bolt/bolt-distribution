@@ -6,6 +6,12 @@ COMPILE_DIR=$BUILD_DIR/compile
 SHIPPING_DIR=$BUILD_DIR/${PACKAGE}
 ARCHIVE_DIR=$WD/files
 
+if [[ $CONSTRAINT =~ "-dev" ]] ; then
+    DEBUG=true
+else
+    DEBUG=false
+fi
+
 # Get command line options
 #  -d  — Dev (branch-head) install
 #  -b  — Beta install

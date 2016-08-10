@@ -8,7 +8,7 @@ if [[ $1 = "" ]] ; then
     echo "Usage examples:"
     echo "    $BASH_SOURCE ^3.1"
     echo "    $BASH_SOURCE ^3.2@beta"
-    echo "    $BASH_SOURCE ^3.3@dev"
+    echo "    $BASH_SOURCE 3.3.x-dev"
     echo ""
 
     exit 1
@@ -33,10 +33,18 @@ cd $WD
 rm -rf $WD/build/
 
 # Create a Composer project directory
-composer create-project bolt/composer-install:$CONSTRAINT $COMPILE_DIR --prefer-dist --no-interaction --stability dev
+composer create-project bolt/composer-install:$CONSTRAINT $COMPILE_DIR --prefer-dist  --stability dev --no-dev --ignore-platform-reqs --no-interaction
 if [ $? -ne 0 ] ; then
     echo "Composer did not complete successfully"
     exit 255
+fi
+
+if [ $DEBUG = true ] ; then
+    composer require bolt/bolt:3.0.x-dev --working-dir=$COMPILE_DIR
+    if [ $? -ne 0 ] ; then
+        echo "Composer did not complete successfully"
+        exit 255
+    fi
 fi
 
 # Set file & directory permssions
