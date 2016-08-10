@@ -1,9 +1,6 @@
 .DS_Store
 app/cache/profiler
-app/cache/.assetsalt
-app/cache/.version
-app/cache/config-cache.json
-app/cache/trans
+app/cache/*
 app/config/*yml
 extensions/composer.json
 extensions/composer.lock

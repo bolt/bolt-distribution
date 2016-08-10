@@ -57,7 +57,7 @@ cp $WD/extras/.htaccess $COMPILE_DIR/vendor/.htaccess
 [[ -f "/usr/sbin/dot_clean" ]] && dot_clean $COMPILE_DIR/.
 
 # Remove extra stuff that is not needed for average installs
-rsync -a --delete --cvs-exclude --exclude-from=$WD/excluded.files $COMPILE_DIR/ $SHIPPING_DIR/
+rsync -a --delete --cvs-exclude --include=app/cache/.gitignore --exclude-from=$WD/excluded.files $COMPILE_DIR/ $SHIPPING_DIR/
 
 # Don't overwrite user modified Composer files
 mv $SHIPPING_DIR/composer.json $SHIPPING_DIR/composer.json.dist
