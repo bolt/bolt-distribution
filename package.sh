@@ -18,7 +18,7 @@ fi
 export COPYFILE_DISABLE=true
 
 # Store the script working directory
-WD=$(pwd)
+WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 CONSTRAINT=$1
 PACKAGE=bolt-${VERSION}
