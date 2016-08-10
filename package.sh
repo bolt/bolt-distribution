@@ -20,12 +20,8 @@ export COPYFILE_DISABLE=true
 # Store the script working directory
 WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-CONSTRAINT=$1
-PACKAGE=bolt-${VERSION}
-BUILD_DIR=$WD/build
-COMPILE_DIR=$BUILD_DIR/compile
-SHIPPING_DIR=$BUILD_DIR/${PACKAGE}
-ARCHIVE_DIR=$WD/files
+# Source parameters
+source $WD/parameters
 
 # Load any custom script if it exists
 if [[ -f "$WD/custom.sh" ]] ; then

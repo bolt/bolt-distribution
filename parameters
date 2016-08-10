@@ -1,0 +1,12 @@
+# Calculated parameters
+CONSTRAINT=$1
+PACKAGE=bolt-${VERSION}
+BUILD_DIR=$WD/build
+COMPILE_DIR=$BUILD_DIR/compile
+SHIPPING_DIR=$BUILD_DIR/${PACKAGE}
+ARCHIVE_DIR=$WD/files
+
+# Get command line options
+#  -d  — Dev (branch-head) install
+#  -b  — Beta install
+
