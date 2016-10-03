@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="3.0.0"
+VERSION="3.2.0-beta2"
 
 if [[ $1 = "" ]] ; then
     echo "ERROR: A Composer version constraint is required."
@@ -61,7 +61,8 @@ cp $WD/extras/.htaccess $COMPILE_DIR/vendor/.htaccess
 [[ -f "/usr/sbin/dot_clean" ]] && dot_clean $COMPILE_DIR/.
 
 # Remove extra stuff that is not needed for average installs
-rsync -a --delete --cvs-exclude --include=app/cache/.gitignore --exclude-from=$WD/excluded.files $COMPILE_DIR/ $SHIPPING_DIR/
+# Note: OSX-specific path, because OSX installs an ancient version or rsync
+/usr/local/bin/rsync -a --delete --cvs-exclude --include=app/cache/.gitignore --exclude-from=$WD/excluded.files $COMPILE_DIR/ $SHIPPING_DIR/
 
 # Don't overwrite user modified Composer files
 mv $SHIPPING_DIR/composer.json $SHIPPING_DIR/composer.json.dist
@@ -77,6 +78,10 @@ rm -f $ARCHIVE_DIR/*.tar.gz
 rm -f $ARCHIVE_DIR/*.zip
 
 cd $BUILD_DIR
+
+# remove .bolt.yml, until this is resolved: https://github.com/bolt/composer-install/pull/16
+rm $PACKAGE/.bolt.yml
+
 cp $PACKAGE/vendor/bolt/bolt/app/config/*yml.dist $ARCHIVE_DIR/
 tar -czf $ARCHIVE_DIR/$PACKAGE.tar.gz $PACKAGE/
 zip -rq --symlinks $ARCHIVE_DIR/$PACKAGE.zip $PACKAGE/
