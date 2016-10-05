@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="3.2.0-beta2"
+VERSION="3.2.0-beta3"
 
 if [[ $1 = "" ]] ; then
     echo "ERROR: A Composer version constraint is required."
@@ -47,15 +47,23 @@ if [ $DEBUG = true ] ; then
     fi
 fi
 
-# Set file & directory permssions
+# Set file & directory permissions
 find $COMPILE_DIR -type d -exec chmod 755 {} \;
 find $COMPILE_DIR -type f -exec chmod 644 {} \;
 find $COMPILE_DIR/vendor/bin/ -type l -exec chmod 755 {} \;
 chmod 777 $COMPILE_DIR/public/files $COMPILE_DIR/app/cache $COMPILE_DIR/app/config $COMPILE_DIR/app/database
 chmod +x $COMPILE_DIR/app/nut
 
+# Set some configuration settings.
+perl -p -i -e 's/\#strict_variables: false/strict_variables: false/' $COMPILE_DIR/vendor/bolt/bolt/app/config/config.yml.dist
+perl -p -i -e 's/\#production_error_level: 8181/production_error_level: 8181/' $COMPILE_DIR/vendor/bolt/bolt/app/config/config.yml.dist
+perl -p -i -e 's/\# debug_error_level: 8181/debug_error_level: 8181/' $COMPILE_DIR/vendor/bolt/bolt/app/config/config.yml.dist
+
 # Add .htaccess file to vendor/
 cp $WD/extras/.htaccess $COMPILE_DIR/vendor/.htaccess
+
+# Override .gitignore file with our copy
+cp $WD/extras/.gitignore $COMPILE_DIR/.gitignore
 
 # Remove ._ files
 [[ -f "/usr/sbin/dot_clean" ]] && dot_clean $COMPILE_DIR/.
