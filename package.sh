@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="3.0.0"
+VERSION="3.1.5"
 
 if [[ $1 = "" ]] ; then
     echo "ERROR: A Composer version constraint is required."
