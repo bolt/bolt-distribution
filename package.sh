@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="3.2.0-beta5"
+VERSION="3.2.0-rc1"
 
 if [[ $1 = "" ]] ; then
     echo "ERROR: A Composer version constraint is required."
@@ -58,6 +58,7 @@ chmod +x $COMPILE_DIR/app/nut
 perl -p -i -e 's/\#strict_variables: false/strict_variables: false/' $COMPILE_DIR/vendor/bolt/bolt/app/config/config.yml.dist
 perl -p -i -e 's/\#production_error_level: 8181/production_error_level: 8181/' $COMPILE_DIR/vendor/bolt/bolt/app/config/config.yml.dist
 perl -p -i -e 's/\# debug_error_level: 8181/debug_error_level: 8181/' $COMPILE_DIR/vendor/bolt/bolt/app/config/config.yml.dist
+perl -p -i -e 's/\debug_error_level: -1/# debug_error_level: 8181/' $COMPILE_DIR/vendor/bolt/bolt/app/config/config.yml.dist
 
 # Add .htaccess file to vendor/
 cp $WD/extras/.htaccess $COMPILE_DIR/vendor/.htaccess
@@ -86,9 +87,6 @@ rm -f $ARCHIVE_DIR/*.tar.gz
 rm -f $ARCHIVE_DIR/*.zip
 
 cd $BUILD_DIR
-
-# remove .bolt.yml, until this is resolved: https://github.com/bolt/composer-install/pull/16
-rm $PACKAGE/.bolt.yml
 
 cp $PACKAGE/vendor/bolt/bolt/app/config/*yml.dist $ARCHIVE_DIR/
 tar -czf $ARCHIVE_DIR/$PACKAGE.tar.gz $PACKAGE/

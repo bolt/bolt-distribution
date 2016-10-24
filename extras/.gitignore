@@ -5,6 +5,9 @@ app/config/config.yml
 # Usually we don't put 'uploaded files' into git either.
 files/
 
+# Modify this, only if you've changed the default folder in .bolt.yml
+public/bolt-public/
+
 # -----------------------------------------------------------------------------
 
 # Config files with '_local' should *never* go into git
@@ -16,7 +19,6 @@ app/database/
 cache/
 thumbs/
 vendor/
-public/bolt-public/
 
 # NPM, Gulp and Grunt stuff
 node_modules
