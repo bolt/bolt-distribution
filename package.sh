@@ -1,14 +1,14 @@
 #!/bin/bash
 
-VERSION="3.2.0-rc1"
+VERSION="3.2.3"
 
 if [[ $1 = "" ]] ; then
     echo "ERROR: A Composer version constraint is required."
     echo ""
     echo "Usage examples:"
-    echo "    $BASH_SOURCE ^3.1"
-    echo "    $BASH_SOURCE ^3.2@beta"
-    echo "    $BASH_SOURCE 3.3.x-dev"
+    echo "    $BASH_SOURCE 3.2"
+    echo "    $BASH_SOURCE ^3.3@beta"
+    echo "    $BASH_SOURCE 3.4.x-dev"
     echo ""
 
     exit 1
@@ -58,7 +58,7 @@ chmod +x $COMPILE_DIR/app/nut
 perl -p -i -e 's/\#strict_variables: false/strict_variables: false/' $COMPILE_DIR/vendor/bolt/bolt/app/config/config.yml.dist
 perl -p -i -e 's/\#production_error_level: 8181/production_error_level: 8181/' $COMPILE_DIR/vendor/bolt/bolt/app/config/config.yml.dist
 perl -p -i -e 's/\# debug_error_level: 8181/debug_error_level: 8181/' $COMPILE_DIR/vendor/bolt/bolt/app/config/config.yml.dist
-perl -p -i -e 's/\debug_error_level: -1/# debug_error_level: 8181/' $COMPILE_DIR/vendor/bolt/bolt/app/config/config.yml.dist
+perl -p -i -e 's/debug_error_level: -1/# debug_error_level: -1/' $COMPILE_DIR/vendor/bolt/bolt/app/config/config.yml.dist
 
 # Add .htaccess file to vendor/
 cp $WD/extras/.htaccess $COMPILE_DIR/vendor/.htaccess
