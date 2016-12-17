@@ -70,8 +70,11 @@ cp $WD/extras/.gitignore $COMPILE_DIR/.gitignore
 [[ -f "/usr/sbin/dot_clean" ]] && dot_clean $COMPILE_DIR/.
 
 # Remove extra stuff that is not needed for average installs
-# Note: OSX-specific path, because OSX installs an ancient version or rsync
-/usr/local/bin/rsync -a --delete --cvs-exclude --include=app/cache/.gitignore --exclude-from=$WD/excluded.files $COMPILE_DIR/ $SHIPPING_DIR/
+rsync -a --delete --cvs-exclude --include=app/cache/.gitignore --exclude-from=$WD/excluded.files $COMPILE_DIR/ $SHIPPING_DIR/
+
+# Note: OSX ships with an ancient version of rsync. If you build on that, you might
+# need to upgrade rsync using brew, and use this OSX-specific path instead:
+# /usr/local/bin/rsync 
 
 # Don't overwrite user modified Composer files
 mv $SHIPPING_DIR/composer.json $SHIPPING_DIR/composer.json.dist
