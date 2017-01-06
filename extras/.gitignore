@@ -44,6 +44,7 @@ npm-debug.log
 __*
 php-cs-fixer.phar
 scrutinizer.phar
+composer.phar
 Thumbs.db
 Vagrantfile
 
