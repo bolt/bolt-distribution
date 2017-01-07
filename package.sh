@@ -16,9 +16,9 @@ source $WD/include/functions.sh
 # Load any custom script if it exists
 [[ -f "$WD/custom.sh" ]] ; source $WD/custom.sh
 
-[[ $1 = "" ]] ; usage
-[[ $MAJOR_VER < 2 ]] ; usage
-[[ $BOLT_INSTALL_REQUIRE == "" ]] ; usage
+[[ $1 == "" ]] && usage
+[[ $MAJOR_VER < 2 ]] && usage
+[[ $BOLT_INSTALL_REQUIRE == "" ]] && usage
 
 # Get things rollin'…
 banner_start
