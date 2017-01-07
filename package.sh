@@ -81,6 +81,6 @@ create_archive $ARCHIVE_DIR/$PACKAGE-flat-structure $PACKAGE-flat-structure
 cp $BUILD_DIR/$PACKAGE/vendor/bolt/bolt/app/config/*yml.dist $ARCHIVE_DIR/
 
 # Execute custom post-archive event script
-[[ -f "$WD/custom.sh" ]] ; custom_post_archive
+[[ -f "$WD/custom.sh" ]] && custom_post_archive
 
 echo 'All done!'
