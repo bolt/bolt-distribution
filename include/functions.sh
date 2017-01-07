@@ -136,3 +136,17 @@ function create_clean_deployment () {
 
     $RSYNC -a --delete --cvs-exclude --include=app/cache/.gitignore --exclude-from=$WD/excluded.files $SRC/ $DST/
 }
+
+# Flatten the structure of the project
+function flatten_project () {
+    FLAT_DIR=$SHIPPING_DIR-flat-structure
+    pushd $FLAT_DIR
+
+    mv $FLAT_DIR/public/* $FLAT_DIR/public/.htaccess $FLAT_DIR/
+    rm -rf $FLAT_DIR/public
+
+    perl -p -i -e 's/ public\// /g' $FLAT_DIR/.bolt.yml
+    perl -p -i -e 's/ public/ ./g' $FLAT_DIR/.bolt.yml
+
+    popd
+}

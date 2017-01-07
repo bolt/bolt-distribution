@@ -59,8 +59,13 @@ cp $WD/extras/.gitignore $COMPILE_DIR/.gitignore
 # Remove extra stuff that is not needed for average installs
 create_clean_deployment $COMPILE_DIR/ $SHIPPING_DIR/
 
+# Create a flat structure deployment
+create_clean_deployment $COMPILE_DIR/ $SHIPPING_DIR-flat-structure/
+flatten_project
+
 # Don't overwrite user modified Composer files
 composer_backup_files $SHIPPING_DIR
+composer_backup_files $SHIPPING_DIR-flat-structure
 
 # Execute custom pre-archive event script
 if [[ -f "$WD/custom.sh" ]] ; then
@@ -71,10 +76,13 @@ fi
 rm -f $ARCHIVE_DIR/*.tar.gz
 rm -f $ARCHIVE_DIR/*.zip
 
+# Create the normal archive
+create_archive $ARCHIVE_DIR/$PACKAGE $PACKAGE
+# Create the flat webroot archive
+create_archive $ARCHIVE_DIR/$PACKAGE-flat-structure $PACKAGE-flat-structure
+
 # Copy current .yml.dist files
 cp $BUILD_DIR/$PACKAGE/vendor/bolt/bolt/app/config/*yml.dist $ARCHIVE_DIR/
-
-create_archive $ARCHIVE_DIR/$PACKAGE $PACKAGE/
 
 # Execute custom post-archive event script
 if [[ -f "$WD/custom.sh" ]] ; then
