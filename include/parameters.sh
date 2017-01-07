@@ -42,23 +42,11 @@ else
     BOLT_INSTALL_REQUIRE="^${BASE_BOLT_VER}@${STABILITY}"
 fi
 
-if [[ $BOLT_INSTALL_REQUIRE == "" ]] ; then
-    usage
-fi
-
 if [[ $RSYNC == "" ]] ; then
     echo "Couldn't find rsync in path."
     echo ""
     exit 1
 fi
-
-echo "Setting up the following:"
-echo "    Base Bolt version: $BASE_BOLT_VER"
-echo "    Major version number: $MAJOR_VER"
-echo "    Major & minor version number: $MAJOR_MINOR_VER"
-echo "    Require for project install: $COMPOSER_INSTALL_REQUIRE"
-echo "    Require for Bolt install: $BOLT_INSTALL_REQUIRE"
-echo ""
 
 # OS X stupidity
 export COPYFILE_DISABLE=true

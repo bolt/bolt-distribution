@@ -3,12 +3,12 @@
 function usage () {
     echo "ERROR: Bolt's Composer version constraint is required, with optional stability."
     echo "Usage:"
-    echo "    $BASH_SOURCE [ -s dev|beta|rc ] x.y[.z]"
+    echo "    $SOURCE [ -s dev|beta|rc ] x.y[.z]"
     echo ""
     echo "Usage examples:"
-    echo "    $BASH_SOURCE 3.2"
-    echo "    $BASH_SOURCE -s beta 3.3"
-    echo "    $BASH_SOURCE -s dev 3.4"
+    echo "    $SOURCE 3.2"
+    echo "    $SOURCE -s beta 3.3"
+    echo "    $SOURCE -s dev 3.4"
     echo ""
 
     exit 1
@@ -149,4 +149,14 @@ function flatten_project () {
     perl -p -i -e 's/ public/ ./g' $FLAT_DIR/.bolt.yml
 
     popd
+}
+
+function banner_start () {
+    echo "Setting up the following:"
+    echo "    Base Bolt version: $BASE_BOLT_VER"
+    echo "    Major version number: $MAJOR_VER"
+    echo "    Major & minor version number: $MAJOR_MINOR_VER"
+    echo "    Require for project install: $COMPOSER_INSTALL_REQUIRE"
+    echo "    Require for Bolt install: $BOLT_INSTALL_REQUIRE"
+    echo ""
 }

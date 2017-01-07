@@ -8,22 +8,20 @@
 
 # Store the script working directory
 WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+SOURCE=$BASH_SOURCE
 
 # Include scripts
 source $WD/include/parameters.sh
 source $WD/include/functions.sh
 # Load any custom script if it exists
-if [[ -f "$WD/custom.sh" ]] ; then
-    source $WD/custom.sh
-fi
+[[ -f "$WD/custom.sh" ]] ; source $WD/custom.sh
 
-if [[ $1 = "" ]] ; then
-    usage
-fi
+[[ $1 = "" ]] ; usage
+[[ $MAJOR_VER < 2 ]] ; usage
+[[ $BOLT_INSTALL_REQUIRE == "" ]] ; usage
 
-if [[ $MAJOR_VER < 2 ]] ; then
-    usage
-fi
+# Get things rollin'…
+banner_start
 
 # Set up fresh build directory
 rm -rf $BUILD_DIR/
@@ -68,9 +66,7 @@ composer_backup_files $SHIPPING_DIR
 composer_backup_files $SHIPPING_DIR-flat-structure
 
 # Execute custom pre-archive event script
-if [[ -f "$WD/custom.sh" ]] ; then
-    custom_pre_archive
-fi
+[[ -f "$WD/custom.sh" ]] ; custom_pre_archive
 
 # Make the archives
 rm -f $ARCHIVE_DIR/*.tar.gz
@@ -85,9 +81,6 @@ create_archive $ARCHIVE_DIR/$PACKAGE-flat-structure $PACKAGE-flat-structure
 cp $BUILD_DIR/$PACKAGE/vendor/bolt/bolt/app/config/*yml.dist $ARCHIVE_DIR/
 
 # Execute custom post-archive event script
-if [[ -f "$WD/custom.sh" ]] ; then
-    cd $WD
-    custom_post_archive
-fi
+[[ -f "$WD/custom.sh" ]] ; custom_post_archive
 
 echo 'All done!'
