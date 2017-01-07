@@ -1,9 +1,12 @@
+#!/usr/bin/env bash
+
 # Calculated parameters
 BUILD_DIR=$WD/build
 COMPILE_DIR=$BUILD_DIR/compile
 ARCHIVE_DIR=$WD/files
 STABILITY="stable"
 COMPOSER_INSTALL_VER=3.2
+RSYNC=$(which rsync)
 
 # Set variables base on passed options
 OPTIND=1
@@ -43,6 +46,12 @@ if [[ $BOLT_INSTALL_REQUIRE == "" ]] ; then
     usage
 fi
 
+if [[ $RSYNC == "" ]] ; then
+    echo "Couldn't find rsync in path."
+    echo ""
+    exit 1
+fi
+
 echo "Setting up the following:"
 echo "    Base Bolt version: $BASE_BOLT_VER"
 echo "    Major version number: $MAJOR_VER"
@@ -51,7 +60,5 @@ echo "    Require for project install: $COMPOSER_INSTALL_REQUIRE"
 echo "    Require for Bolt install: $BOLT_INSTALL_REQUIRE"
 echo ""
 
-function get_bolt_version () {
-    PACKAGE=bolt-$(composer --working-dir=$COMPILE_DIR show | grep bolt/bolt | awk '{print $2}')
-    SHIPPING_DIR=$BUILD_DIR/${PACKAGE}
-}
+# OS X stupidity
+export COPYFILE_DISABLE=true
