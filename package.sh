@@ -1,27 +1,37 @@
 #!/bin/bash
 
-VERSION="3.2.4"
+# OS X stupidity
+export COPYFILE_DISABLE=true
 
-if [[ $1 = "" ]] ; then
-    echo "ERROR: A Composer version constraint is required."
+function usage () {
+    echo "ERROR: Bolt's Composer version constraint is required, with optional stability."
+    echo "Usage:"
+    echo "    $BASH_SOURCE [ -s dev|beta|rc ] x.y[.z]"
     echo ""
     echo "Usage examples:"
     echo "    $BASH_SOURCE 3.2"
-    echo "    $BASH_SOURCE ^3.3@beta"
-    echo "    $BASH_SOURCE 3.4.x-dev"
+    echo "    $BASH_SOURCE -s beta 3.3"
+    echo "    $BASH_SOURCE -s dev 3.4"
     echo ""
 
     exit 1
-fi
+}
 
-# OS X stupidity
-export COPYFILE_DISABLE=true
+if [[ $1 = "" ]] ; then
+    usage
+fi
 
 # Store the script working directory
 WD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Source parameters
 source $WD/parameters
+
+if [[ $MAJOR_VER < 2 ]] ; then
+    echo $MAJOR_VER
+    exit 1
+    usage
+fi
 
 # Load any custom script if it exists
 if [[ -f "$WD/custom.sh" ]] ; then
@@ -33,19 +43,36 @@ cd $WD
 rm -rf $WD/build/
 
 # Create a Composer project directory
-composer create-project bolt/composer-install:$CONSTRAINT $COMPILE_DIR --prefer-dist  --stability dev --no-dev --ignore-platform-reqs --no-interaction
+echo "Creating Composer project for Bolt installation…"
+composer create-project bolt/composer-install:$COMPOSER_INSTALL_REQUIRE \
+    $COMPILE_DIR \
+    --no-dev \
+    --no-scripts \
+    --prefer-dist \
+    --no-interaction \
+    --stability beta \
+    --ignore-platform-reqs
+
 if [ $? -ne 0 ] ; then
     echo "Composer did not complete successfully"
     exit 255
 fi
 
-if [ $DEBUG = true ] ; then
-    composer require bolt/bolt:3.0.x-dev --working-dir=$COMPILE_DIR
-    if [ $? -ne 0 ] ; then
-        echo "Composer did not complete successfully"
-        exit 255
-    fi
+echo "Setting project's Bolt version"
+composer require bolt/bolt:$BOLT_INSTALL_REQUIRE \
+    passwordlib/passwordlib:^1.0@beta \
+    bolt/configuration-notices:^1.0@dev \
+    --working-dir=$COMPILE_DIR \
+    --ignore-platform-reqs \
+    --no-interaction
+
+if [ $? -ne 0 ] ; then
+    echo "Composer did not complete successfully"
+    exit 255
 fi
+
+# Store the installed Bolt version
+get_bolt_version
 
 # Set file & directory permissions
 find $COMPILE_DIR -type d -exec chmod 755 {} \;
@@ -74,7 +101,7 @@ rsync -a --delete --cvs-exclude --include=app/cache/.gitignore --exclude-from=$W
 
 # Note: OSX ships with an ancient version of rsync. If you build on that, you might
 # need to upgrade rsync using brew, and use this OSX-specific path instead:
-# /usr/local/bin/rsync 
+# /usr/local/bin/rsync
 
 # Don't overwrite user modified Composer files
 mv $SHIPPING_DIR/composer.json $SHIPPING_DIR/composer.json.dist
