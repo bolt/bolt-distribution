@@ -14,7 +14,7 @@ SOURCE=$BASH_SOURCE
 source $WD/include/parameters.sh
 source $WD/include/functions.sh
 # Load any custom script if it exists
-[[ -f "$WD/custom.sh" ]] ; source $WD/custom.sh
+[[ -f "$WD/custom.sh" ]] && source $WD/custom.sh
 
 [[ $1 == "" ]] && usage
 [[ $MAJOR_VER < 2 ]] && usage
@@ -66,7 +66,7 @@ composer_backup_files $SHIPPING_DIR
 composer_backup_files $SHIPPING_DIR-flat-structure
 
 # Execute custom pre-archive event script
-[[ -f "$WD/custom.sh" ]] ; custom_pre_archive
+[[ -f "$WD/custom.sh" ]] && custom_pre_archive
 
 # Make the archives
 rm -f $ARCHIVE_DIR/*.tar.gz
