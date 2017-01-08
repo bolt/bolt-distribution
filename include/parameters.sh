@@ -7,6 +7,7 @@ ARCHIVE_DIR=$WD/files
 STABILITY="stable"
 COMPOSER_INSTALL_VER=3.2
 RSYNC=$(which rsync)
+AWK=$(which gawk)
 
 # Set variables base on passed options
 OPTIND=1
@@ -27,8 +28,8 @@ done
 
 shift $(($OPTIND - 1))
 BASE_BOLT_VER="$1"
-MAJOR_VER=$(awk -v RS=[0-9]+ '{print RT+0;exit}' <<< "$BASE_BOLT_VER")
-MAJOR_MINOR_VER=$(awk -v RS=[0-9]+\.[0-9]+ '{print RT+0;exit}' <<< "$BASE_BOLT_VER")
+MAJOR_VER=$($AWK -v RS=[0-9]+ '{print RT+0;exit}' <<< "$BASE_BOLT_VER")
+MAJOR_MINOR_VER=$($AWK -v RS=[0-9]+\.[0-9]+ '{print RT+0;exit}' <<< "$BASE_BOLT_VER")
 
 if [[ $COMPOSER_INSTALL_VER == "" ]] ; then
     COMPOSER_INSTALL_VER="^$MAJOR_MINOR_VER"
