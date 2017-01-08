@@ -34,6 +34,12 @@ composer_create_project $COMPOSER_INSTALL_REQUIRE $COMPILE_DIR
 echo "    Setting project's Bolt version"
 composer_require $BOLT_INSTALL_REQUIRE $COMPILE_DIR
 
+echo "    Removing any unwanted Composer packages…"
+composer_remove $COMPILE_DIR
+
+echo "    Running Composer 'create-project' scripts…"
+composer_scripts_create_project $COMPILE_DIR
+
 # Store the installed Bolt version
 get_bolt_version
 

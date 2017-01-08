@@ -56,7 +56,8 @@ function composer_create_project () {
         --prefer-dist \
         --no-interaction \
         --stability beta \
-        --ignore-platform-reqs
+        --ignore-platform-reqs \
+        --no-install
 
     if [ $? -ne 0 ] ; then
         echo "Composer did not complete successfully"
@@ -81,7 +82,47 @@ function composer_require () {
         bolt/configuration-notices:^1.0@dev \
         --working-dir=$_PROJECT_DIR \
         --ignore-platform-reqs \
-        --no-interaction
+        --no-interaction \
+        --no-suggest \
+        --no-scripts
+
+    if [ $? -ne 0 ] ; then
+        echo "Composer did not complete successfully"
+        exit 255
+    fi
+
+    popd
+}
+
+# Remove packages
+#
+# $1 — Project directory
+function composer_remove () {
+    pushd $BUILD_DIR
+
+    _PROJECT_DIR=$1
+
+#    composer remove
+#        --working-dir=$_PROJECT_DIR \
+#        --no-interaction
+
+    if [ $? -ne 0 ] ; then
+        echo "Composer did not complete successfully"
+        exit 255
+    fi
+
+    popd
+}
+
+function composer_scripts_create_project () {
+    pushd $BUILD_DIR
+
+    _PROJECT_DIR=$1
+
+    composer run-script  \
+        --working-dir=$_PROJECT_DIR \
+        --no-interaction \
+        post-create-project-cmd
 
     if [ $? -ne 0 ] ; then
         echo "Composer did not complete successfully"
