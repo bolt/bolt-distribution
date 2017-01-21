@@ -76,10 +76,14 @@ function composer_require () {
 
     _REQUIRE=$1
     _PROJECT_DIR=$2
+    _PACKAGES="passwordlib/passwordlib:^1.0@beta"
+
+    if [[ $MAJOR_MINOR_VER -gt 3.2 ]] ; then
+        $_PACKAGES = "$_PACKAGES bolt/configuration-notices:^1.0@dev"
+    fi
 
     composer require bolt/bolt:$_REQUIRE \
-        passwordlib/passwordlib:^1.0@beta \
-        bolt/configuration-notices:^1.0@dev \
+        $_PACKAGES \
         --working-dir=$_PROJECT_DIR \
         --ignore-platform-reqs \
         --no-interaction \
