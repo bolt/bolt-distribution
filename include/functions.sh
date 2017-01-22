@@ -78,7 +78,7 @@ function composer_require () {
     _PROJECT_DIR=$2
     _PACKAGES="passwordlib/passwordlib:^1.0@beta"
 
-    if [[ $MAJOR_MINOR_VER -gt 3.2 ]] ; then
+    if (( $(echo "$MAJOR_MINOR_VER > 3.2" | bc -l) )); then
         $_PACKAGES = "$_PACKAGES bolt/configuration-notices:^1.0@dev"
     fi
 
