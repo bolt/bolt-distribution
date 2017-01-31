@@ -79,7 +79,7 @@ function composer_require () {
     _PACKAGES="passwordlib/passwordlib:^1.0@beta"
 
     if (( $(echo "$MAJOR_MINOR_VER > 3.2" | bc -l) )); then
-        $_PACKAGES = "$_PACKAGES bolt/configuration-notices:^1.0@dev"
+        $_PACKAGES="$_PACKAGES bolt/configuration-notices:^1.0@dev"
     fi
 
     composer require bolt/bolt:$_REQUIRE \
