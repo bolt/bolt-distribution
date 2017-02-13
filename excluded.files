@@ -25,6 +25,7 @@ vendor/bolt/bolt/files
 vendor/bolt/bolt/tests
 vendor/bolt/bolt/theme
 vendor/composer/composer/tests
+vendor/imagine/imagine/lib/Imagine/resources/Adobe
 vendor/swiftmailer/swiftmailer/doc
 vendor/swiftmailer/swiftmailer/notes
 vendor/swiftmailer/swiftmailer/test-suite
