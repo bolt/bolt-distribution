@@ -83,6 +83,9 @@ create_archive $ARCHIVE_DIR/$PACKAGE $PACKAGE
 # Create the flat webroot archive
 create_archive $ARCHIVE_DIR/$PACKAGE-flat-structure $PACKAGE-flat-structure
 
+# Output build data
+write_build_data
+
 # Copy current .yml.dist files
 cp $BUILD_DIR/$PACKAGE/vendor/bolt/bolt/app/config/*yml.dist $ARCHIVE_DIR/
 

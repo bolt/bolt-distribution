@@ -205,3 +205,16 @@ function banner_start () {
     echo "    Require for Bolt install: $BOLT_INSTALL_REQUIRE"
     echo ""
 }
+
+# Write out a source file containing build data variables to be used for
+# pushing to live,
+function write_build_data() {
+    echo "#!/usr/bin/env bash" > $DATA_FILE
+    echo "" >> $DATA_FILE
+    echo "BUILD_MAJOR_VER=$MAJOR_VER" >> $DATA_FILE
+    echo "BUILD_MAJOR_MINOR_VER=$MAJOR_MINOR_VER" >> $DATA_FILE
+    echo "BUILD_STABILITY=$STABILITY" >> $DATA_FILE
+    echo "BUILD_PACKAGE=$PACKAGE" >> $DATA_FILE
+    echo "BUILD_PACKAGE_FLAT=$PACKAGE-flat-structure" >> $DATA_FILE
+}
+

@@ -4,10 +4,13 @@
 BUILD_DIR=$WD/build
 COMPILE_DIR=$BUILD_DIR/compile
 ARCHIVE_DIR=$WD/files
+DATA_FILE=$BUILD_DIR/.data
+PROD_TARGET="bolt.cm:/var/www/sites/bolt.cm/distribution/"
 STABILITY="stable"
 COMPOSER_INSTALL_VER=3.2
 RSYNC=$(which rsync)
 AWK=$(which gawk)
+LINK="$(which ln) -s"
 
 # Set variables base on passed options
 OPTIND=1
