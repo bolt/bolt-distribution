@@ -41,7 +41,7 @@ $RSYNC -av $ARCHIVE_DIR/$BUILD_PACKAGE.tar.gz \
 
 # If not publishing a stable release, skip symlinks
 if [[ $BUILD_STABILITY != "stable" ]] ; then
-    echo "Skiping symlinks for stability of \"$BUILD_STABILITY\""
+    echo "Skipping symlinks for stability of \"$BUILD_STABILITY\""
     exit 0
 fi
 
