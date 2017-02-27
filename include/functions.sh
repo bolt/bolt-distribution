@@ -192,6 +192,7 @@ function flatten_project () {
 
     perl -p -i -e 's/ public\// /g' $FLAT_DIR/.bolt.yml
     perl -p -i -e 's/ public/ ./g' $FLAT_DIR/.bolt.yml
+    perl -p -i -e 's/\.\.\/vendor/vendor/g' $FLAT_DIR/index.php
 
     popd
 }
