@@ -132,6 +132,9 @@ function composer_scripts_create_project () {
         echo "Composer did not complete successfully"
         exit 255
     fi
+    if [ -f "$_PROJECT_DIR/.bolt.yml" ] ; then
+        rm -rf $_PROJECT_DIR/.bolt.yml
+    fi
 
     popd
 }
