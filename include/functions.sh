@@ -190,8 +190,11 @@ function flatten_project () {
     mv $FLAT_DIR/public/* $FLAT_DIR/public/.htaccess $FLAT_DIR/
     rm -rf $FLAT_DIR/public
 
-    perl -p -i -e 's/ public\// /g' $FLAT_DIR/.bolt.yml
-    perl -p -i -e 's/ public/ ./g' $FLAT_DIR/.bolt.yml
+    if [ -f "$FLAT_DIR/vendor/bolt/bolt/.bolt.yml" ] ; then
+        cp $FLAT_DIR/vendor/bolt/bolt/.bolt.yml $FLAT_DIR
+    else
+        cp $WD/extras/v3.2.bolt.yml $FLAT_DIR/.bolt.yml
+    fi
     perl -p -i -e 's/\.\.\/vendor/vendor/g' $FLAT_DIR/index.php
 
     popd
