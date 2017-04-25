@@ -194,7 +194,7 @@ function flatten_project () {
     rm -rf $FLAT_DIR/public
 
     if [ -f "$FLAT_DIR/vendor/bolt/bolt/.bolt.yml" ] ; then
-        cp $FLAT_DIR/vendor/bolt/bolt/.bolt.yml $FLAT_DIR
+        cp $WD/extras/bolt.yml $FLAT_DIR/.bolt.yml
     else
         cp $WD/extras/v3.2.bolt.yml $FLAT_DIR/.bolt.yml
     fi
