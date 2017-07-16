@@ -132,8 +132,10 @@ function composer_scripts_create_project () {
         echo "Composer did not complete successfully"
         exit 255
     fi
-    if [ -f "$_PROJECT_DIR/.bolt.yml" ] ; then
-        rm -rf $_PROJECT_DIR/.bolt.yml
+    if (( $(echo "$MAJOR_MINOR_VER > 3.2" | bc -l) )); then
+        if [ -f "$_PROJECT_DIR/.bolt.yml" ] ; then
+            rm -rf $_PROJECT_DIR/.bolt.yml
+        fi
     fi
 
     popd
