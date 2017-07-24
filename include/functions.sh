@@ -227,3 +227,11 @@ function write_build_data() {
     echo "BUILD_PACKAGE_FLAT=$PACKAGE-flat-structure" >> $DATA_FILE
 }
 
+function check_php_version() {
+    echo "Checking $PHP version"
+    PHP_RUN_VER=$($PHP -r "echo version_compare(PHP_VERSION, '"$PHP_TOO_HIGH_VER"', '>=');")
+    if [[ $PHP_RUN_VER != '' ]]; then
+        echo "This must be run with PHP < $PHP_TOO_HIGH_VER"
+        exit 1
+    fi
+}

@@ -20,6 +20,8 @@ source $WD/include/functions.sh
 [[ $MAJOR_VER < 2 ]] && usage
 [[ $BOLT_INSTALL_REQUIRE == "" ]] && usage
 
+check_php_version
+
 # Get things rollin'…
 banner_start
 
