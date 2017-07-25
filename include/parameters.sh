@@ -10,6 +10,7 @@ STABILITY="stable"
 COMPOSER_INSTALL_VER=3.2
 PHP_TOO_HIGH_VER=5.6
 PHP=$(which php)
+COMPOSER=$(which composer)
 RSYNC=$(which rsync)
 AWK=$(which gawk)
 LINK="$(which ln) -s"

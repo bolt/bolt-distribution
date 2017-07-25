@@ -17,7 +17,7 @@ function usage () {
 function get_bolt_version () {
     pushd $BUILD_DIR
 
-    PACKAGE=bolt-$(composer --working-dir=$COMPILE_DIR show | grep bolt/bolt | awk '{print $2}')
+    PACKAGE=bolt-$($PHP $COMPOSER --working-dir=$COMPILE_DIR show | grep bolt/bolt | awk '{print $2}')
     SHIPPING_DIR=$BUILD_DIR/${PACKAGE}
 
     popd
@@ -49,7 +49,7 @@ function composer_create_project () {
     _REQUIRE=$1
     _PROJECT_DIR=$2
 
-    composer create-project bolt/composer-install:$_REQUIRE \
+    $PHP $COMPOSER create-project bolt/composer-install:$_REQUIRE \
         $_PROJECT_DIR \
         --no-dev \
         --no-scripts \
@@ -82,10 +82,9 @@ function composer_require () {
         _PACKAGES="$_PACKAGES bolt/configuration-notices:^1.0"
     fi
 
-    composer require bolt/bolt:$_REQUIRE \
+    $PHP $COMPOSER require bolt/bolt:$_REQUIRE \
         $_PACKAGES \
         --working-dir=$_PROJECT_DIR \
-        --ignore-platform-reqs \
         --no-interaction \
         --no-suggest \
         --no-scripts
@@ -106,7 +105,7 @@ function composer_remove () {
 
     _PROJECT_DIR=$1
 
-#    composer remove
+#    $PHP $COMPOSER remove
 #        --working-dir=$_PROJECT_DIR \
 #        --no-interaction
 
@@ -123,7 +122,7 @@ function composer_scripts_create_project () {
 
     _PROJECT_DIR=$1
 
-    composer run-script  \
+    $PHP $COMPOSER run-script  \
         --working-dir=$_PROJECT_DIR \
         --no-interaction \
         post-create-project-cmd
