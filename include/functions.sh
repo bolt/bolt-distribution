@@ -15,12 +15,12 @@ function usage () {
 }
 
 function get_bolt_version () {
-    pushd $BUILD_DIR
+    pushd $BUILD_DIR > /dev/null
 
     PACKAGE=bolt-$($PHP $COMPOSER --working-dir=$COMPILE_DIR show | grep bolt/bolt | awk '{print $2}')
     SHIPPING_DIR=$BUILD_DIR/${PACKAGE}
 
-    popd
+    popd > /dev/null
 }
 
 # Create zip & tar archives
@@ -28,7 +28,7 @@ function get_bolt_version () {
 # $1 — Prefix (with path) of the resulting file(s)
 # $2 — Source files to be archived
 function create_archive () {
-    pushd $BUILD_DIR
+    pushd $BUILD_DIR > /dev/null
 
     _PREFIX=$1
     _SOURCE=$2
@@ -36,7 +36,7 @@ function create_archive () {
     tar -czf $_PREFIX.tar.gz $_SOURCE/
     zip -rq --symlinks $_PREFIX.zip $_SOURCE/
 
-    popd
+    popd > /dev/null
 }
 
 # Create the initial Composer project
@@ -44,7 +44,7 @@ function create_archive () {
 # $1 — The constraint to pass to Composer for "bolt/composer-install"
 # $2 — Project directory
 function composer_create_project () {
-    pushd $BUILD_DIR
+    pushd $BUILD_DIR > /dev/null
 
     _REQUIRE=$1
     _PROJECT_DIR=$2
@@ -64,7 +64,7 @@ function composer_create_project () {
         exit 255
     fi
 
-    popd
+    popd > /dev/null
 }
 
 # Require specific Bolt version & packages
@@ -72,7 +72,7 @@ function composer_create_project () {
 # $1 — The constraint to pass to Composer for "bolt/bolt"
 # $2 — Project directory
 function composer_require () {
-    pushd $BUILD_DIR
+    pushd $BUILD_DIR > /dev/null
 
     _REQUIRE=$1
     _PROJECT_DIR=$2
@@ -94,14 +94,14 @@ function composer_require () {
         exit 255
     fi
 
-    popd
+    popd > /dev/null
 }
 
 # Remove packages
 #
 # $1 — Project directory
 function composer_remove () {
-    pushd $BUILD_DIR
+    pushd $BUILD_DIR > /dev/null
 
     _PROJECT_DIR=$1
 
@@ -114,11 +114,11 @@ function composer_remove () {
         exit 255
     fi
 
-    popd
+    popd > /dev/null
 }
 
 function composer_scripts_create_project () {
-    pushd $BUILD_DIR
+    pushd $BUILD_DIR > /dev/null
 
     _PROJECT_DIR=$1
 
@@ -137,7 +137,7 @@ function composer_scripts_create_project () {
         fi
     fi
 
-    popd
+    popd > /dev/null
 }
 
 # Move JSON & lock files to .dist
@@ -189,7 +189,7 @@ function create_clean_deployment () {
 # Flatten the structure of the project
 function flatten_project () {
     FLAT_DIR=$SHIPPING_DIR-flat-structure
-    pushd $FLAT_DIR
+    pushd $FLAT_DIR > /dev/null
 
     mv $FLAT_DIR/public/* $FLAT_DIR/public/.htaccess $FLAT_DIR/
     rm -rf $FLAT_DIR/public
@@ -201,7 +201,7 @@ function flatten_project () {
     fi
     perl -p -i -e 's/\.\.\/vendor/vendor/g' $FLAT_DIR/index.php
 
-    popd
+    popd > /dev/null
 }
 
 function banner_start () {
