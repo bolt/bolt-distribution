@@ -31,10 +31,13 @@ mkdir -p $BUILD_DIR
 
 # Create a Composer project directory
 echo "Creating Composer project for Bolt installation…"
-composer_create_project $COMPOSER_INSTALL_REQUIRE $COMPILE_DIR
+composer_create_project $COMPOSER_INSTALL_SETUP $COMPILE_DIR
 
-echo "    Setting project's Bolt version"
-composer_require $BOLT_INSTALL_REQUIRE $COMPILE_DIR
+echo "    Setting project's install Bolt version"
+composer_require $BOLT_INSTALL_SETUP $COMPILE_DIR
+
+echo "    Setting project's deploy Bolt version"
+composer_require_set $COMPILE_DIR
 
 echo "    Removing any unwanted Composer packages…"
 composer_remove $COMPILE_DIR

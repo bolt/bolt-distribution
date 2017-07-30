@@ -97,6 +97,30 @@ function composer_require () {
     popd > /dev/null
 }
 
+# Require deployed specific Bolt version & packages
+#
+# $1 — The constraint to pass to Composer for "bolt/bolt"
+# $2 — Project directory
+function composer_require_set () {
+    pushd $BUILD_DIR > /dev/null
+
+    _PROJECT_DIR=$1
+
+    $PHP $COMPOSER require bolt/bolt:$BOLT_INSTALL_REQUIRE \
+        --working-dir=$_PROJECT_DIR \
+        --no-interaction \
+        --no-suggest \
+        --no-scripts \
+        --no-update
+
+    if [ $? -ne 0 ] ; then
+        echo "Composer did not complete successfully"
+        exit 255
+    fi
+
+    popd > /dev/null
+}
+
 # Remove packages
 #
 # $1 — Project directory
