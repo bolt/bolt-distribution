@@ -2,4 +2,5 @@
 !.htaccess
 /build/
 /files/
+/vendor/
 custom.sh
