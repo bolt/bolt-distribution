@@ -82,6 +82,10 @@ function composer_require () {
         _PACKAGES="$_PACKAGES bolt/configuration-notices:^1.0"
     fi
 
+    if (( $(echo "$MAJOR_MINOR_VER > 3.3" | bc -l) )); then
+        _PACKAGES="$_PACKAGES bolt/simple-deploy:^1.0"
+    fi
+
     $PHP $COMPOSER require bolt/bolt:$_REQUIRE \
         $_PACKAGES \
         --working-dir=$_PROJECT_DIR \
