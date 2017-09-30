@@ -83,7 +83,7 @@ function composer_require () {
     fi
 
     if (( $(echo "$MAJOR_MINOR_VER > 3.3" | bc -l) )); then
-        _PACKAGES="$_PACKAGES bolt/simple-deploy:^1.0"
+        _PACKAGES="$_PACKAGES bolt/simple-deploy:^1.0@beta"
     fi
 
     $PHP $COMPOSER require bolt/bolt:$_REQUIRE \
