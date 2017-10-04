@@ -12,6 +12,7 @@ public/bolt-public/
 
 # Config files with '_local' should *never* go into git
 app/config/*_local.yml
+app/config/extensions/*_local.yml
 
 # SQLite databases should not go into git
 app/database/
