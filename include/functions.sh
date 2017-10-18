@@ -164,6 +164,12 @@ function composer_scripts_create_project () {
             rm -rf $_PROJECT_DIR/.bolt.yml
         fi
     fi
+    # Add bundled extension for 3.4+
+    if (( $(echo "$MAJOR_MINOR_VER > 3.3" | bc -l) )); then
+        echo "Adding Bundled Extension to .bolt.yml.dist"
+        echo "extensions:" >> $_PROJECT_DIR/.bolt.yml.dist
+        echo "    - Bundle\Site\CustomisationExtension" >> $_PROJECT_DIR/.bolt.yml.dist
+    fi
 
     popd > /dev/null
 }
@@ -230,10 +236,18 @@ function flatten_project () {
     mv $FLAT_DIR/public/* $FLAT_DIR/public/.htaccess $FLAT_DIR/
     rm -rf $FLAT_DIR/public
 
-    if [ -f "$FLAT_DIR/vendor/bolt/bolt/.bolt.yml" ] ; then
-        cp $WD/extras/bolt.yml $FLAT_DIR/.bolt.yml
-    else
-        cp $WD/extras/v3.2.bolt.yml $FLAT_DIR/.bolt.yml
+    echo "Updating paths in .bolt.yml.dist"
+    echo "paths:" >> $FLAT_DIR/.bolt.yml.dist
+    echo "    web: '.'" >> $FLAT_DIR/.bolt.yml.dist
+
+    # Handle .bolt.yml configuration for pre-3.3 installs
+    if (( $(echo "$MAJOR_MINOR_VER < 3.3" | bc -l) )); then
+        echo "    cache: app/cache" >> $FLAT_DIR/.bolt.yml
+        echo "    config: app/config" >> $FLAT_DIR/.bolt.yml
+        echo "    database: app/database" >> $FLAT_DIR/.bolt.yml
+        echo "    themebase: theme" >> $FLAT_DIR/.bolt.yml
+        echo "    files: files" >> $FLAT_DIR/.bolt.yml
+        echo "    view: bolt-public/view" >> $FLAT_DIR/.bolt.yml
     fi
     perl -p -i -e 's/\.\.\/vendor/vendor/g' $FLAT_DIR/index.php
 
