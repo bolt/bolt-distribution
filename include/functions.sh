@@ -168,14 +168,22 @@ function composer_scripts_create_project () {
     popd > /dev/null
 }
 
-# Move JSON & lock files to .dist
+# Create .dist files where required
 #
-# $1 —
-function composer_backup_files () {
+# $1 — Target directory
+function create_dist_files () {
     _PROJECT_DIR=$1
 
-    mv $_PROJECT_DIR/composer.json $_PROJECT_DIR/composer.json.dist
-    mv $_PROJECT_DIR/composer.lock $_PROJECT_DIR/composer.lock.dist
+    echo ""
+    echo "Creating .dist files"
+    for file in composer.json composer.lock src/Site/CustomisationExtension.php ; do
+        if [ -f $_PROJECT_DIR/$file ] ; then
+            echo "    $file -> $file.dist"
+            mv $_PROJECT_DIR/$file $_PROJECT_DIR/$file.dist
+        else
+            echo "    Skipping $file as it does not exist"
+        fi
+    done
 }
 
 # Set require permissions

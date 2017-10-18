@@ -72,9 +72,9 @@ create_clean_deployment $COMPILE_DIR/ $SHIPPING_DIR/
 create_clean_deployment $COMPILE_DIR/ $SHIPPING_DIR-flat-structure/
 flatten_project
 
-# Don't overwrite user modified Composer files
-composer_backup_files $SHIPPING_DIR
-composer_backup_files $SHIPPING_DIR-flat-structure
+# Don't overwrite user modified Composer & Bundle files
+create_dist_files $SHIPPING_DIR
+create_dist_files $SHIPPING_DIR-flat-structure
 
 # Execute custom pre-archive event script
 [[ -f "$WD/custom.sh" ]] && custom_pre_archive
