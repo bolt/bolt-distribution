@@ -226,6 +226,10 @@ function create_clean_deployment () {
     DST=$2
 
     $RSYNC -a --delete --cvs-exclude --include=app/cache/.gitignore --exclude-from=$WD/excluded.files $SRC/ $DST/
+
+    if (( $(echo "$MAJOR_VER < 4" | bc -l) )); then
+        rm $DST/var/ -rf
+    fi
 }
 
 # Flatten the structure of the project
