@@ -228,7 +228,7 @@ function create_clean_deployment () {
     $RSYNC -a --delete --cvs-exclude --include=app/cache/.gitignore --exclude-from=$WD/excluded.files $SRC/ $DST/
 
     if (( $(echo "$MAJOR_VER < 4" | bc -l) )); then
-        rm $DST/var/ -rf
+        rm -rf $DST/var/
     fi
 }
 
