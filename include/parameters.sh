@@ -10,7 +10,7 @@ STABILITY="stable"
 COMPOSER_INSTALL_VER=3.2
 PHP_TOO_HIGH_VER=5.6
 PHP=$(which php)
-COMPOSER=$(which composer)
+COMPOSER="$WD/vendor/bin/composer"
 RSYNC=$(which rsync)
 AWK=$(which gawk)
 LINK="$(which ln) -s"
@@ -31,6 +31,11 @@ while getopts "s:p:" OPTION ; do
             ;;
     esac
 done
+
+if [[ ! -f $COMPOSER ]] ; then
+    echo "Vendor libraries not installed. Run `composer install` before attempting again."
+    exit 1
+fi
 
 shift $(($OPTIND - 1))
 BASE_BOLT_VER="$1"

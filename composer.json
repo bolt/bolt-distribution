@@ -1,0 +1,25 @@
+{
+    "name": "bolt/distribution",
+    "description": "Packaging utility for Bolt distributions",
+    "type": "library",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "authors": [
+        {
+            "name": "Gawain Lynch",
+            "email": "gawain.lynch@gmail.com"
+        },
+        {
+            "name": "Bob den Otter",
+            "email": "bob@twokings.nl"
+        }
+    ],
+    "require": {
+        "composer/composer": "^1.6"
+    },
+    "config": {
+        "platform": {
+            "php": "5.5"
+        }
+    }
+}
