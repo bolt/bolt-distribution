@@ -17,7 +17,7 @@ function usage () {
 function get_bolt_version () {
     pushd $BUILD_DIR > /dev/null
 
-    PACKAGE=bolt-$($PHP $COMPOSER --working-dir=$COMPILE_DIR show | grep bolt/bolt | awk '{print $2}')
+    PACKAGE=bolt-$($PHP $COMPOSER --working-dir=$COMPILE_DIR show | grep bolt/four | awk '{print $2}')
     SHIPPING_DIR=$BUILD_DIR/${PACKAGE}
 
     popd > /dev/null
@@ -49,15 +49,16 @@ function composer_create_project () {
     _REQUIRE=$1
     _PROJECT_DIR=$2
 
-    $PHP $COMPOSER create-project bolt/composer-install:$_REQUIRE \
+    $PHP $COMPOSER create-project bolt/standard-project \
         $_PROJECT_DIR \
         --no-dev \
-        --no-scripts \
         --prefer-dist \
         --no-interaction \
-        --stability beta \
+        --stability dev \
         --ignore-platform-reqs \
-        --no-install
+
+    # --no-scripts \
+    # --no-install
 
     if [ $? -ne 0 ] ; then
         echo "Composer did not complete successfully"
@@ -76,17 +77,18 @@ function composer_require () {
 
     _REQUIRE=$1
     _PROJECT_DIR=$2
-    _PACKAGES="passwordlib/passwordlib:^1.0@beta"
 
-    if (( $(echo "$MAJOR_MINOR_VER > 3.2" | bc -l) )); then
-        _PACKAGES="$_PACKAGES bolt/configuration-notices:^1.0"
-    fi
+    # _PACKAGES="passwordlib/passwordlib:^1.0@beta"
 
-    if (( $(echo "$MAJOR_MINOR_VER > 3.3" | bc -l) )); then
-        _PACKAGES="$_PACKAGES bolt/simple-deploy:^1.0@beta"
-    fi
+    # if (( $(echo "$MAJOR_MINOR_VER > 3.2" | bc -l) )); then
+    #     _PACKAGES="$_PACKAGES bolt/configuration-notices:^1.0"
+    # fi
 
-    $PHP $COMPOSER require bolt/bolt:$_REQUIRE \
+    # if (( $(echo "$MAJOR_MINOR_VER > 3.3" | bc -l) )); then
+    #     _PACKAGES="$_PACKAGES bolt/simple-deploy:^1.0@beta"
+    # fi
+
+    $PHP -d memory_limit=-1 $COMPOSER require bolt/bolt:$_REQUIRE \
         $_PACKAGES \
         --working-dir=$_PROJECT_DIR \
         --no-interaction \

@@ -6,20 +6,16 @@
     "minimum-stability": "stable",
     "authors": [
         {
-            "name": "Gawain Lynch",
-            "email": "gawain.lynch@gmail.com"
-        },
-        {
             "name": "Bob den Otter",
             "email": "bob@twokings.nl"
         }
     ],
     "require": {
-        "composer/composer": "^1.6"
+        "composer/composer": "^1.8"
     },
     "config": {
         "platform": {
-            "php": "5.5"
+            "php": "7.1"
         }
     }
 }
