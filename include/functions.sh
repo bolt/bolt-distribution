@@ -17,7 +17,7 @@ function usage () {
 function get_bolt_version () {
     pushd $BUILD_DIR > /dev/null
 
-    PACKAGE=bolt-$($PHP $COMPOSER --working-dir=$COMPILE_DIR show | grep bolt/four | awk '{print $2}')
+    PACKAGE=bolt-$($PHP $COMPOSER --working-dir=$COMPILE_DIR show | grep bolt/bolt | awk '{print $2}')
     SHIPPING_DIR=$BUILD_DIR/${PACKAGE}
 
     popd > /dev/null
@@ -203,8 +203,8 @@ function set_filesystem_perms () {
     find $_COMPILE_DIR -type d -exec chmod 755 {} \;
     find $_COMPILE_DIR -type f -exec chmod 644 {} \;
     find $_COMPILE_DIR/vendor/bin/ -type l -exec chmod 755 {} \;
-    chmod 777 $_COMPILE_DIR/public/files $_COMPILE_DIR/app/cache $_COMPILE_DIR/app/config $_COMPILE_DIR/app/database
-    chmod +x $_COMPILE_DIR/app/nut
+    chmod -R 777 $_COMPILE_DIR/public/files $_COMPILE_DIR/var $_COMPILE_DIR/app/config
+    chmod +x $_COMPILE_DIR/bin/console
 }
 
 # Set debug settings in config.yml
